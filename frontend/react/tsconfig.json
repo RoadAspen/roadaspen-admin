@@ -1,0 +1,46 @@
+{
+    "compilerOptions": {
+        "target": "ESNext", // ts不需要编译 js，只需要检验typescript语法输出无types的js就行
+        "lib": [ // typescript 仅支持 esnext的语法，不支持api，lib指定typescript 支持的api版本
+            "dom", // 包含 浏览器的api
+            "dom.iterable",
+            "esnext" // 包含 esnext 的 api，如 Array.some
+        ],
+        "typeRoots": [ // 包含类型定义的文件夹列表
+            "./src/types", // 指定 d.ts 文件的位置，根据具体情况修改
+            "./node_modules/@types"
+        ],
+        "module": "esnext", // 模块系统使用 ES 模块还是使用CommonJs 模块，影响编译结果。
+        "allowJs": true, // 不接受js文件的编译，只接收ts或tsx
+        "checkJs": true, // allowJs 为true时，才生效，此举为检查js文件的语法问题。
+        // "incremental": true, // 是否缓存编译后的ts，可以提高编译速度,如果不生成js文件，则无法缓存，与 noEmit不能同时为true。
+        "jsx": "react", // 使用jsx，文件后缀改为 tsx，这里改为 react， 编译后为js，输出React.createElement
+        // "declaration": false, // 编译时是否生成 .d.ts文件
+        // "declarationMap": false, // 编译时是否生成 .d.ts.map文件
+        // "outFile":"",// 将所有ts编译后的文件输出到一个文件中，在module为amd或者是system时有用
+        // "rootDir": "./src", // 指定需要编译的ts文件存放的目录，仅用于控制输出目录结构 outDir
+        // "outDir": "./dist" , // 指定编译后的ts文件存放的目录，tsc执行时生效,一般不设置，和原先的ts文件在相同的目录
+        "removeComments": true, // 编译时删除注释
+        "noEmit": true, // 编译ts时并不会生成js文件，在ts作为babel之前的步骤时设置
+        "isolatedModules": true, // 关掉之后，所有的ts文件共享同一个作用域，不同文件中的类型声明可以直接使用而不需要export和import。建议开启，这样模块内变量可以私有化。
+        "skipLibCheck": true, // 是否跳过所有声明文件的类型检查，声明文件为纯ts，无js实现
+        "esModuleInterop": true, // 帮助程序实现运行时babel生态兼容
+        "allowSyntheticDefaultImports": true, // 允许模块没有默认导出，用于类型检查
+        "experimentalDecorators": true, //为ES装饰器启用实验性支持，支持装饰器语法
+        "strict": true, // 开启严格模式
+        "forceConsistentCasingInFileNames": true, //禁止对同一文件使用大小写不一致的引用。
+        "moduleResolution": "node", // 模块解析方法，默认为classical，推荐使用node 的模块解析方法
+        "resolveJsonModule": true, // 是否解析 json 为扩展名的模块
+        "baseUrl": ".", // 模块导入的根目录是根据tsconfig所在的当前目录，相对路径导入不受影响
+        "paths": { // ts import 路径映射，相对于 baseUrl
+            "@/*": [
+                "src/*" // @/path 导入为 绝对路径导入，受 baseUrl的影响
+            ]
+        },
+        "locale": "zh-CN" // 用于显示错误信息的语言环境
+    },
+    "include": [
+        "src/**/*",
+        "global.d.ts"
+    ]
+}

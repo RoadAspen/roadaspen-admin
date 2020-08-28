@@ -1,0 +1,4 @@
+frontend/react/node_modules
+frontend/vue/node_modules
+frontend/react/dist
+backend/koa2/node_modules
