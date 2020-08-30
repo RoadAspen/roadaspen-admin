@@ -8,7 +8,7 @@ const request = axios.create({
         'Content-Type': 'application/json',
     },
     withCredentials: false,
-    baseURL: '/api',
+    baseURL: '/dev-api',
     paramsSerializer: function(params) {
         // get 请求时 ，将参数 encodeURIComponent，将特殊字符串转换为 utf8
         return qs.stringify(params);
@@ -23,7 +23,10 @@ request.interceptors.request.use(
         const source = CancelToken.source();
         // 定义ajax 取消
         config.cancelToken = source.token;
-        const Authorization = localStorage.getItem('token') || false;
+        let Authorization
+        if(config.url !== '/login' && config.url !== '/captchaImage') {
+            Authorization = localStorage.getItem('token') || false;
+        }
         // 如果token 不存在，则取消当前的请求
         if(!Authorization) {
             // 当 alert_index不为0，则清空

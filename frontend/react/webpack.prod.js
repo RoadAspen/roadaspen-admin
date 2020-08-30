@@ -69,14 +69,16 @@ module.exports = {
 
         },
         {
-            test: /\.(less)$/, // 提取css到单独文件
+            test: /\.(less|css)$/, // 提取css到单独文件
+            include: path.resolve(__dirname, 'src'),
             use: [
                 MiniCssExtractPlugin.loader,
                 {
                     loader: "css-loader", // 主要解析 @import 和 url()
                     options: {
+                        importLoaders: 1, // css-loader 解析 @import之前需要执行几个loader， 1 postcss-loader 
+                        localsConvention: 'camelCase', // 支持导出驼峰命名, 也可以使用 原始命名
                         // modules: true, // 支持 css modules,公共css 需要使用:global(class) 来写。
-                        importLoaders: 1 // css-loader 解析 @import之前需要执行几个loader， 1 postcss-loader 2 postcss-loader lessloader
                     }
                 },
                 {
@@ -84,6 +86,13 @@ module.exports = {
                 }
             ]
 
+        },
+        {
+            test: /\.(less|css)$/, // 提取css到单独文件
+            include: path.resolve(__dirname, 'node_modules'),
+            use: [
+                MiniCssExtractPlugin.loader, "css-loader", 'less-loader'
+            ]
         },
         ]
     },

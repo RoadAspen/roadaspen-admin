@@ -3,7 +3,10 @@ import history from '@/utils/history';
 import { Button, Form, Input, Row, Col } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { login, captchaImage } from '@/api/login.api';
-import * as loginStyle from '@/assets/css/login.scss';
+import * as loginStyle from '@/assets/css/login.less';
+
+console.log(loginStyle);
+console.log(123);
 
 const Login = () => {
     const [form] = Form.useForm();
@@ -40,7 +43,7 @@ const Login = () => {
             localStorage.setItem('user', data.user.username);
             setLoading(false);
             history.push('/main/consumer');
-        } catch (error) {
+        } catch(error) {
             setError(true);
         } finally {
             setLoading(false);

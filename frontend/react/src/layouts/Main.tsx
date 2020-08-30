@@ -16,6 +16,7 @@ const { Header, Sider, Content } = Layout;
 // content 页面上下布局， 采用 flex ，header，footer 高度固定。page 高度自适应
 
 const Main = (props: any) => {
+    console.log(props);
     const [collapsed, setCollapsed] = useState<boolean>(false);
     function toggle() {
         setCollapsed((collapsed) => !collapsed);
@@ -27,13 +28,13 @@ const Main = (props: any) => {
                 <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
                     <Menu.Item key="1" icon={<UserOutlined />}>
                         nav 1
-            </Menu.Item>
+                    </Menu.Item>
                     <Menu.Item key="2" icon={<VideoCameraOutlined />}>
                         nav 2
-            </Menu.Item>
+                    </Menu.Item>
                     <Menu.Item key="3" icon={<UploadOutlined />}>
                         nav 3
-            </Menu.Item>
+                    </Menu.Item>
                 </Menu>
             </Sider>
             <Layout className="site-layout">
@@ -51,8 +52,8 @@ const Main = (props: any) => {
                         minHeight: 280,
                     }}
                 >
-                    Content
-          </Content>
+                    {renderRoutes(props.route.routes)}
+                </Content>
             </Layout>
         </Layout>
     );

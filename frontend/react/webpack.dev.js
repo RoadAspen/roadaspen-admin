@@ -56,20 +56,35 @@ module.exports = {
                 ]
             },
             {
-                test: /\.(less)$/,
+                test: /\.(less|css)$/, // 对于自己编写的less，可以 开启 css modules
+                include: path.resolve(__dirname, 'src'),
                 use: [
                     "style-loader",
+                    { // 生成 less.d.ts
+                        loader: "@teamsupercell/typings-for-css-modules-loader",
+                        options: {
+                            formatter: "prettier"
+                        }
+                    },
                     {
                         loader: "css-loader", // 主要解析 @import 和 url()
                         options: {
-                            // modules: true, // antd 的css 不能支持 css modules。
-                            importLoaders: 1 // css-loader 解析 @import之前需要执行几个loader， 1 postcss-loader 
+                            modules: {
+                                localIdentName: '[local]__[hash:base64:5]' // 生成类名规则
+                            }, // 支持 css modules,公共css 需要使用:global(class) 来写。
+                            importLoaders: 1, // css-loader 解析 @import之前需要执行几个loader， 1 postcss-loader 
+                            localsConvention: 'camelCase', // 支持导出驼峰命名, 也可以使用 原始命名
                         }
                     },
                     {
                         loader: "less-loader" // 先执行less => css
                     }
                 ]
+            },
+            {
+                test: /\.(less|css)$/, // 对于antd 中引入的css或者less，不能开启css modules。
+                include: path.resolve(__dirname, 'node_modules'),
+                use: [ "style-loader", "css-loader", "less-loader" ]
             },
         ]
     },
@@ -112,11 +127,11 @@ module.exports = {
         },
         proxy: process.env.MOCK ? {} : {
             // 所有的
-            "/api": { // 代理，如果不模拟数据则代理
+            "/dev-api/": { // 代理，如果不模拟数据则代理
                 //context: ["/api", "/user_login"], // 代理多个端口到同一个地址
                 target: process.env.HOST || "http://localhost:8081/", // 后端运行端口
                 changeOrigin: true,
-                // pathRewrite:{'/api':''}, // 替换 url中一部分, 将 api 替换为空
+                pathRewrite: { '/dev-api/': '/' }, // 替换 url中一部分, 将 /dev-api/ 替换为空
                 bypass: function (req, res, proxyOptions) {
                     // 如果是路径请求html，则绕过代理，直接返回html
                     //不是html，则是ajax请求或者是除html外的静态资源，走代理
