@@ -1,7 +1,7 @@
 import axios from 'axios';
 import qs from 'qs';
 import history from '@/utils/history';
-const _axios = axios.create({
+const request = axios.create({
     timeout: 20000,
     headers: {
         // 'Content-Type': 'application/x-www-form-urlencode',
@@ -17,7 +17,7 @@ const _axios = axios.create({
 
 let alert_index = 0;
 //在发起请求之前,拦截请求
-_axios.interceptors.request.use(
+request.interceptors.request.use(
     (config) => {
         const CancelToken = axios.CancelToken;
         const source = CancelToken.source();
@@ -25,9 +25,9 @@ _axios.interceptors.request.use(
         config.cancelToken = source.token;
         const Authorization = localStorage.getItem('token') || false;
         // 如果token 不存在，则取消当前的请求
-        if (!Authorization) {
+        if(!Authorization) {
             // 当 alert_index不为0，则清空
-            if (alert_index === 0) {
+            if(alert_index === 0) {
                 localStorage.clear();
                 alert_index = 1;
                 alert('用户未登陆');
@@ -48,13 +48,13 @@ _axios.interceptors.request.use(
 );
 
 //在请求返回之后，根据返回码做相应的操作
-_axios.interceptors.response.use(
+request.interceptors.response.use(
     (res) => {
-        if (res.status === 401) {
+        if(res.status === 401) {
             localStorage.clear();
             alert('请登陆');
             history.push('/login');
-        } else if (res.status === 403) {
+        } else if(res.status === 403) {
             localStorage.clear();
             alert('无权限，请登陆');
             history.push('/login');
@@ -66,4 +66,4 @@ _axios.interceptors.response.use(
     }
 );
 
-export default _axios;
+export default request;

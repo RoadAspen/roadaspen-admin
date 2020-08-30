@@ -13,79 +13,78 @@ module.exports = {
         chunkFilename: "static/js/[name].[chunkhash].js", // js文件分块，动态加载时名称，chunkhash 有修改是才会生成新的hash'
     },
     module: {
-        rules: [{
-                test: /\.css$/,
-                include: path.resolve(__dirname, 'src'), // 对于自己写的 css
-                use: [
-                    MiniCssExtractPlugin.loader, // 提取css到单独文件
-                    {
-                        loader: "css-loader", // 主要解析 @import 和 url()
-                        options: {
-                            // modules: true, // 支持 css modules,默认开启，公共css 需要使用:global(class) 来写。
-                            importLoaders: 1 // css-loader 解析 @import之前需要执行几个loader， 1 postcss-loader 2 postcss-loader lessloader
-                        }
-                    },
-                    {
-                        loader: `postcss-loader`,
-                        options: {
-                            plugins: [
-                                require('autoprefixer') // css 前缀
-                            ]
-                        }
+        rules: [ {
+            test: /\.css$/,
+            include: path.resolve(__dirname, 'src'), // 对于自己写的 css
+            use: [
+                MiniCssExtractPlugin.loader, // 提取css到单独文件
+                {
+                    loader: "css-loader", // 主要解析 @import 和 url()
+                    options: {
+                        // modules: true, // 支持 css modules,默认开启，公共css 需要使用:global(class) 来写。
+                        importLoaders: 1 // css-loader 解析 @import之前需要执行几个loader， 1 postcss-loader 2 postcss-loader lessloader
                     }
-                ]
-
-            },
-            {
-                test: /\.s(a|c)ss$/,
-                include: path.resolve(__dirname, 'src'), // 对于自己写的less
-                use: [
-                    MiniCssExtractPlugin.loader, // 提取css到单独文件
-                    {
-                        loader: "css-loader", // 主要解析 @import 和 url()
-                        options: {
-                            modules: {
-                                localIdentName: '[local]__[hash:base64:5]' // 类名规则
-                            }, // 支持 css modules,公共css 需要使用:global(class) 来写。
-                            importLoaders: 2, // css-loader 解析 @import之前需要执行几个loader， 1 postcss-loader 
-                            localsConvention: 'camelCase', // 支持导出驼峰命名, 也可以使用 原始命名
-                        }
-                    },
-                    {
-                        loader: `postcss-loader`, // 添加 浏览器内核前缀
-                        options: {
-                            plugins: [
-                                require('autoprefixer') // 浏览器内核兼容配置
-                            ]
-                        }
-                    },
-                    {
-                        loader: "sass-loader", // 先执行sass，转换为css,默认使用node-sass 引擎
-                        options: {
-                            implementation: require('sass') //这里使用 dart-sass，解决 node-grey 安装失败问题
-                        }
+                },
+                {
+                    loader: `postcss-loader`,
+                    options: {
+                        plugins: [
+                            require('autoprefixer') // css 前缀
+                        ]
                     }
-                ]
+                }
+            ]
 
-            },
-            {
-                test: /\.(less|css)$/, // 提取css到单独文件
-                include: path.resolve(__dirname, 'node_modules'), // 对于 antd 的css和less ,不需要
-                use: [
-                    MiniCssExtractPlugin.loader,
-                    {
-                        loader: "css-loader", // 主要解析 @import 和 url()
-                        options: {
-                            // modules: true, // 支持 css modules,公共css 需要使用:global(class) 来写。
-                            importLoaders: 1 // css-loader 解析 @import之前需要执行几个loader， 1 postcss-loader 2 postcss-loader lessloader
-                        }
-                    },
-                    {
-                        loader: "less-loader" // 先执行less，转换为css
+        },
+        {
+            test: /\.s(a|c)ss$/,
+            include: path.resolve(__dirname, 'src'), // 对于自己写的less
+            use: [
+                MiniCssExtractPlugin.loader, // 提取css到单独文件
+                {
+                    loader: "css-loader", // 主要解析 @import 和 url()
+                    options: {
+                        modules: {
+                            localIdentName: '[local]__[hash:base64:5]' // 类名规则
+                        }, // 支持 css modules,公共css 需要使用:global(class) 来写。
+                        importLoaders: 2, // css-loader 解析 @import之前需要执行几个loader， 1 postcss-loader 
+                        localsConvention: 'camelCase', // 支持导出驼峰命名, 也可以使用 原始命名
                     }
-                ]
+                },
+                {
+                    loader: `postcss-loader`, // 添加 浏览器内核前缀
+                    options: {
+                        plugins: [
+                            require('autoprefixer') // 浏览器内核兼容配置
+                        ]
+                    }
+                },
+                {
+                    loader: "sass-loader", // 先执行sass，转换为css,默认使用node-sass 引擎
+                    options: {
+                        implementation: require('sass') //这里使用 dart-sass，解决 node-grey 安装失败问题
+                    }
+                }
+            ]
 
-            },
+        },
+        {
+            test: /\.(less)$/, // 提取css到单独文件
+            use: [
+                MiniCssExtractPlugin.loader,
+                {
+                    loader: "css-loader", // 主要解析 @import 和 url()
+                    options: {
+                        // modules: true, // 支持 css modules,公共css 需要使用:global(class) 来写。
+                        importLoaders: 1 // css-loader 解析 @import之前需要执行几个loader， 1 postcss-loader 2 postcss-loader lessloader
+                    }
+                },
+                {
+                    loader: "less-loader" // 先执行less，转换为css
+                }
+            ]
+
+        },
         ]
     },
     optimization: { // 优化选项，根据 mode执行不同的优化,常用的有，压缩，代码分割
@@ -99,7 +98,7 @@ module.exports = {
             maxAsyncRequests: 5, // 同时异步请求的文件数为5 ， 按需加载时并行请求的最大数量
             maxInitialRequests: 3, // 初始请求的js块 最大为3 ，即优先同步加载js块。 入口点的最大并行请求数
             automaticNameDelimiter: "-", // 抽取出来的文件名字的分隔符， 
-            name:true, // 抽取出来的名字，表示自动生成文件名，默认为true
+            name: true, // 抽取出来的名字，表示自动生成文件名，默认为true
             // cacheGroups: { // 缓存组，将公共模块缓存。 继承自 splitChunks 配置， test ， priority , reuseExistingChunk 只能在缓存组中配置
             //     libs: { // 这个缓存组是将所有 node_modules 中的模块打包
             //         name:'chunk-libs', // 代替自动生成的名字

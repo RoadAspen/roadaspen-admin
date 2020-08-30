@@ -10,68 +10,67 @@ module.exports = {
     },
     module: {
         rules: [
-        {
-            test: /\.css$/,
-            include: path.resolve(__dirname, 'src'), // 对于自己写的 css
-            use: [
-                "style-loader",
-                {
-                    loader: "css-loader", // 主要解析 @import 和 url()
-                    options: {
-                        // modules: true, // 支持 css modules,公共css 需要使用:global(class) 来写。
-                        importLoaders: 1 // css-loader 解析 @import之前需要执行几个loader， 1 postcss-loader 
+            {
+                test: /\.css$/,
+                include: path.resolve(__dirname, 'src'), // 对于自己写的 css
+                use: [
+                    "style-loader",
+                    {
+                        loader: "css-loader", // 主要解析 @import 和 url()
+                        options: {
+                            // modules: true, // 支持 css modules,公共css 需要使用:global(class) 来写。
+                            importLoaders: 1 // css-loader 解析 @import之前需要执行几个loader， 1 postcss-loader 
+                        }
                     }
-                }
-            ]
-        },
-        {
-            test: /\.s(a|c)ss$/,
-            include: path.resolve(__dirname, 'src'), // 对于自己写的less
-            use: [
-                "style-loader",
-                // 此为将 scss 生成 xxxx.scss.d.ts 文件
-                {
-                    loader: "@teamsupercell/typings-for-css-modules-loader",
-                    options: {
-                        formatter: "prettier"
+                ]
+            },
+            {
+                test: /\.s(a|c)ss$/,
+                include: path.resolve(__dirname, 'src'), // 对于自己写的less
+                use: [
+                    "style-loader",
+                    // 此为将 scss 生成 xxxx.scss.d.ts 文件
+                    {
+                        loader: "@teamsupercell/typings-for-css-modules-loader",
+                        options: {
+                            formatter: "prettier"
+                        }
+                    },
+                    {
+                        loader: "css-loader", // 主要解析 @import 和 url()
+                        options: {
+                            modules: {
+                                localIdentName: '[local]__[hash:base64:5]' // 生成类名规则
+                            }, // 支持 css modules,公共css 需要使用:global(class) 来写。
+                            importLoaders: 1, // css-loader 解析 @import之前需要执行几个loader， 1 postcss-loader 
+                            localsConvention: 'camelCase', // 支持导出驼峰命名, 也可以使用 原始命名
+                        }
+                    },
+                    {
+                        loader: "sass-loader", // 先执行less，转换为css
+                        options: {
+                            implementation: require('sass'),
+                            sourceMap: true
+                        }
                     }
-                },
-                {
-                    loader: "css-loader", // 主要解析 @import 和 url()
-                    options: {
-                        modules: {
-                            localIdentName: '[local]__[hash:base64:5]' // 生成类名规则
-                        }, // 支持 css modules,公共css 需要使用:global(class) 来写。
-                        importLoaders: 1, // css-loader 解析 @import之前需要执行几个loader， 1 postcss-loader 
-                        localsConvention: 'camelCase', // 支持导出驼峰命名, 也可以使用 原始命名
+                ]
+            },
+            {
+                test: /\.(less)$/,
+                use: [
+                    "style-loader",
+                    {
+                        loader: "css-loader", // 主要解析 @import 和 url()
+                        options: {
+                            // modules: true, // antd 的css 不能支持 css modules。
+                            importLoaders: 1 // css-loader 解析 @import之前需要执行几个loader， 1 postcss-loader 
+                        }
+                    },
+                    {
+                        loader: "less-loader" // 先执行less => css
                     }
-                },
-                {
-                    loader: "sass-loader", // 先执行less，转换为css
-                    options: {
-                        implementation: require('sass'),
-                        sourceMap: true
-                    }
-                }
-            ]
-        },
-        {
-            test: /\.(less|css)$/,
-            include: path.resolve(__dirname, 'node_modules'), // 对于 antd 的css和less ,不需要
-            use: [
-                "style-loader",
-                {
-                    loader: "css-loader", // 主要解析 @import 和 url()
-                    options: {
-                        // modules: true, // antd 的css 不能支持 css modules。
-                        importLoaders: 1 // css-loader 解析 @import之前需要执行几个loader， 1 postcss-loader 
-                    }
-                },
-                {
-                    loader: "less-loader" // 先执行less => css
-                }
-            ]
-        },
+                ]
+            },
         ]
     },
     plugins: [
@@ -83,8 +82,8 @@ module.exports = {
     optimization: { // 优化选项，根据 mode执行不同的优化,常用的有，压缩，代码分割，开发模式下追求速度
         minimize: false, // 是否开启压缩，production模式下是默认为true的,
         // minimizer:[],//自定义压缩工具
-        splitChunks:{
-            chunks:'all'
+        splitChunks: {
+            chunks: 'all'
         },// 动态导入模块，代码分割，不会统一打包到同一个文件中
         noEmitOnErrors: true, // 编译出错时，会跳过生成阶段，确保没有生成出错误资源
         namedModules: true, // 生成更可读的模块名称，方便调试。 在 开发模式下启用，生产模式下禁用
@@ -109,7 +108,7 @@ module.exports = {
         historyApiFallback: true, // 如果使用的是 HTML5 history API,则将所有的url路径都返回index.html
         // inline:true,
         before: function (app) { // 在服务器的中间件使用之前执行,可以添加 mock js
-            process.env.MOCK && useMock(app) 
+            process.env.MOCK && useMock(app)
         },
         proxy: process.env.MOCK ? {} : {
             // 所有的
@@ -121,7 +120,7 @@ module.exports = {
                 bypass: function (req, res, proxyOptions) {
                     // 如果是路径请求html，则绕过代理，直接返回html
                     //不是html，则是ajax请求或者是除html外的静态资源，走代理
-                    if (req.headers.accept.indexOf('html') !== -1) {
+                    if(req.headers.accept.indexOf('html') !== -1) {
                         console.log('Skipping proxy for browser request.');
                         return "/index.html";
                     }
@@ -137,6 +136,6 @@ module.exports = {
         hints: "warning", // 一个文件超过250kb时会警告
         maxEntrypointSize: 400000000, // 入口资源体积
         maxAssetSize: 400000000, // 单个打包资源体积
-        assetFilter: function () {} // 文件过滤，哪些文件不需要大小提示
+        assetFilter: function () { } // 文件过滤，哪些文件不需要大小提示
     }
 }

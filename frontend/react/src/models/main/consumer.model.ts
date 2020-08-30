@@ -1,4 +1,5 @@
 import React, { useReducer } from 'react';
+import { Map } from 'immutable';
 
 export interface ConsumerState {
     id: number;
@@ -18,18 +19,16 @@ export interface ConsumerPageState {
     total: number;
     username: string | undefined;
     consumer_list: ConsumerState[];
-    add_modal_visible: boolean;
-    edit_modal_visible: boolean;
+    modal_visible: boolean;
     table_loading: boolean;
+    handleType: 'add' | 'edit'
 }
 
 export type Payload = Partial<ConsumerPageState>;
 
 export type OnlyActionType =
-    | 'add_modal_show'
-    | 'add_modal_close'
-    | 'edit_modal_show'
-    | 'edit_modal_close'
+    | 'modal_show'
+    | 'modal_close'
     | 'get_table_list_data_start'
     | 'get_table_list_data_end';
 
@@ -41,24 +40,20 @@ const initicalState: ConsumerPageState = {
     total: 0,
     username: undefined,
     consumer_list: [],
-    add_modal_visible: false,
-    edit_modal_visible: false,
+    modal_visible: false,
     table_loading: false,
+    handleType: 'add'
 };
 
 function consumerReducer(state: ConsumerPageState, action: Action): ConsumerPageState;
 function consumerReducer(state: ConsumerPageState, action: Action) {
-    switch (action.type) {
+    switch(action.type) {
         case 'update':
             return { ...state, ...action.payload };
-        case 'add_modal_show':
-            return { ...state, add_modal_visible: true };
-        case 'add_modal_close':
-            return { ...state, add_modal_visible: false };
-        case 'edit_modal_show':
-            return { ...state, edit_modal_visible: true };
-        case 'edit_modal_close':
-            return { ...state, edit_modal_visible: false };
+        case 'modal_show':
+            return { ...state, modal_visible: true };
+        case 'modal_close':
+            return { ...state, modal_visible: false };
         case 'get_table_list_data_start':
             return { ...state, table_loading: true };
         case 'get_table_list_data_end':

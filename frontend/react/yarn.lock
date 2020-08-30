@@ -1086,6 +1086,13 @@
     "@types/react" "*"
     hoist-non-react-statics "^3.3.0"
 
+"@types/immutable@^3.8.7":
+  version "3.8.7"
+  resolved "https://registry.npm.taobao.org/@types/immutable/download/@types/immutable-3.8.7.tgz#536d33d30f3f3d9a6d4642a219419fd82af633fb"
+  integrity sha1-U20z0w8/PZptRkKiGUGf2Cr2M/s=
+  dependencies:
+    immutable "*"
+
 "@types/json-schema@^7.0.3", "@types/json-schema@^7.0.4":
   version "7.0.5"
   resolved "https://registry.npm.taobao.org/@types/json-schema/download/@types/json-schema-7.0.5.tgz#dcce4430e64b443ba8945f0290fb564ad5bac6dd"
@@ -4219,6 +4226,16 @@ image-size@~0.5.0:
   version "0.5.5"
   resolved "https://registry.npm.taobao.org/image-size/download/image-size-0.5.5.tgz#09dfd4ab9d20e29eb1c3e80b8990378df9e3cb9c"
   integrity sha1-Cd/Uq50g4p6xw+gLiZA3jfnjy5w=
+
+immutable@*:
+  version "3.8.2"
+  resolved "https://registry.npm.taobao.org/immutable/download/immutable-3.8.2.tgz#c2439951455bb39913daf281376f1530e104adf3"
+  integrity sha1-wkOZUUVbs5kT2vKBN28VMOEErfM=
+
+immutable@^4.0.0-rc.12:
+  version "4.0.0-rc.12"
+  resolved "https://registry.npm.taobao.org/immutable/download/immutable-4.0.0-rc.12.tgz#ca59a7e4c19ae8d9bf74a97bdf0f6e2f2a5d0217"
+  integrity sha1-ylmn5MGa6Nm/dKl73w9uLypdAhc=
 
 import-cwd@^2.0.0:
   version "2.1.0"

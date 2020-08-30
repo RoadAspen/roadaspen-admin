@@ -1,9 +1,9 @@
-$btn_icon_color:#c0c4cc!important; // 按钮及图标和边框色
-$title_color:#707070!important;// title 颜色
-$color2:#1582ee!important;// 
-$inputcolor:#1379bb!important;
-$input_text_color:#ffffff!important;
-$tran_bg_color:rgba(255,255,255,0)!important; // 背景色透明
+// @btn_icon_color:#c0c4cc!important; // 按钮及图标和边框色
+// @title_color:#707070!important;// title 颜色
+// @color2:#1582ee!important;// 
+// @inputcolor:#1379bb!important;
+// @input_text_color:#ffffff!important;
+// @tran_bg_color:rgba(255,255,255,0)!important; // 背景色透明
 
 .login_bg{
     height: 100vh;
@@ -25,7 +25,7 @@ $tran_bg_color:rgba(255,255,255,0)!important; // 背景色透明
     background: #ffffff;
 }
 .login_title{
-    color: $title_color;
+    color: @title_color;
     margin-bottom:30px ;
     font-size: 16px;
     text-align: center;
@@ -49,27 +49,27 @@ $tran_bg_color:rgba(255,255,255,0)!important; // 背景色透明
         padding-left: 4px!important;
     }
     :global(.ant-input-affix-wrapper){
-        background-color: $tran_bg_color;
-        // border: 1px solid $btn_icon_color;
+        background-color: @tran_bg_color;
+        // border: 1px solid @btn_icon_color;
         border-radius: 6px;
     }
     input:-internal-autofill-previewed,
     input:-internal-autofill-selected{
-        -webkit-text-fill-color: $input_text_color;
+        -webkit-text-fill-color: @input_text_color;
         transition: background-color 5000s ease-in-out 0s;
     }
     input::-webkit-input-placeholder{
-        // color:$inputcolor;
+        // color:@inputcolor;
         // font-size: 12px;
         vertical-align: middle;
         line-height: 1;
     }
     input:-webkit-autofill{
         transition: background-color 5000s ease-in-out 0s;
-        color: $input_text_color;
+        color: @input_text_color;
     }
     .login_icon{
-        color:$btn_icon_color;
+        color:@btn_icon_color;
         font-size: 14px;
     }
 }
