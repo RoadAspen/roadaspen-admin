@@ -127,11 +127,11 @@ module.exports = {
         },
         proxy: process.env.MOCK ? {} : {
             // 所有的
-            "/dev-api/": { // 代理，如果不模拟数据则代理
+            "/api": { // 代理，如果不模拟数据则代理
                 //context: ["/api", "/user_login"], // 代理多个端口到同一个地址
-                target: process.env.HOST || "http://localhost:8081/", // 后端运行端口
+                target: process.env.HOST || "http://localhost:8081", // 后端运行端口
                 changeOrigin: true,
-                pathRewrite: { '/dev-api/': '/' }, // 替换 url中一部分, 将 /dev-api/ 替换为空
+                pathRewrite: { '/api': '' }, // 替换 url中一部分, 将 /dev-api/ 替换为空
                 bypass: function (req, res, proxyOptions) {
                     // 如果是路径请求html，则绕过代理，直接返回html
                     //不是html，则是ajax请求或者是除html外的静态资源，走代理

@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import history from '@/utils/history';
 import { Button, Form, Input, Row, Col } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { login, captchaImage } from '@/api/login.api';
 import * as loginStyle from '@/assets/css/login.less';
-
-console.log(loginStyle);
-console.log(123);
+import { UserInfoContext } from '@/contexts/UserInfoContext';
 
 const Login = () => {
+    const [state, dispatch] = useContext(UserInfoContext)
+    console.log(state);
     const [form] = Form.useForm();
     // 按钮loading
     const [loading, setLoading] = useState(false);
@@ -20,12 +20,16 @@ const Login = () => {
     });
 
     const get_verify = async () => {
-        const { data } = await captchaImage();
-        const href = btoa(unescape(encodeURIComponent(data.code)));
-        setVerify(() => ({
-            href: `data:image/svg+xml;base64,${href}`,
-            uuid: data.uuid,
-        }));
+        try {
+            const { data } = await captchaImage();
+            const href = btoa(unescape(encodeURIComponent(data.data)));
+            setVerify(() => ({
+                href: `data:image/svg+xml;base64,${href}`,
+                uuid: data.uuid,
+            }));
+        } catch(error) {
+            console.log(error.message);
+        }
     };
     useEffect(() => {
         // DidMount 时 获取验证码图片

@@ -8,6 +8,7 @@ import zhCN from 'antd/es/locale/zh_CN';
 import { ConfigProvider } from 'antd';
 import { renderRoutes } from 'react-router-config';
 import routes from '@/router/index';
+import UserInfoContextProvider from '@/contexts/UserInfoContext';
 moment.locale('zh-cn');
 
 enum Fruit {
@@ -28,9 +29,11 @@ const App: React.FC = (): ReactElement => {
     return (
         <ConfigProvider locale={zhCN}>
             <StoreContextProvider>
-                <Router history={history}>
-                    {renderRoutes(routes.routes)}
-                </Router>
+                <UserInfoContextProvider>
+                    <Router history={history}>
+                        {renderRoutes(routes.routes)}
+                    </Router>
+                </UserInfoContextProvider>
             </StoreContextProvider>
         </ConfigProvider>
     );

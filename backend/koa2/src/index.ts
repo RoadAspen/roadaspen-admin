@@ -4,7 +4,7 @@ import statics from 'koa-static';
 import Router from 'koa-router';
 import db from './db/mongo';
 import path from 'path';
-import {loadModules} from './loadModules';
+import { loadModules } from './loadModules';
 
 
 import session from 'koa-session';
@@ -33,19 +33,19 @@ app.use(statics(path.join(__dirname, 'static')));
 // 获取 views 文件夹下所有的文件，然后获取每个文件名，根据文件名添加router方法
 const router = new Router();
 
-app.use(async (ctx,next)=>{
-    console.log(ctx.session)
-    if(ctx.path === '/favicon.ico') return 
-    let n = ctx.session.views || 0;
-    ctx.session.views = ++n;
-    // ctx.body = n + 'views';
-    next()
-})
+// app.use(async (ctx,next)=>{
+//     console.log(ctx.session)
+//     if(ctx.path === '/favicon.ico') return 
+//     let n = ctx.session.views || 0;
+//     ctx.session.views = ++n;
+//     // ctx.body = n + 'views';
+//     next()
+// })
 
 async function bootstrap(router: Router<any, {}>) {
     const router_list = await loadModules('views');
-    for (const item of router_list) {
-        switch (item.methods) {
+    for(const item of router_list) {
+        switch(item.methods) {
             case 'get':
                 router.get(item.url, item.func);
                 break;
@@ -63,7 +63,7 @@ async function bootstrap(router: Router<any, {}>) {
         }
     }
     app.use(router.routes()).use(router.allowedMethods());
-    db.once('open', function () {
+    db.once('open', function() {
         app.listen(8081);
         console.log('服务器连接成功 at 8081');
     });
