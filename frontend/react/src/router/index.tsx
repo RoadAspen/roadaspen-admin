@@ -3,6 +3,7 @@ import Loadable from '@loadable/component';
 import { RouteConfig } from 'react-router-config';
 import { Redirect } from 'react-router';
 import React from 'react';
+import Cookies from 'js-cookie';
 // 使用 react-router-config 来配置 react-router
 // const Root = Loadable(() => import(/* webpackChunkName: "Root" */ '@/Root'));
 const Main = Loadable(() => import(/* webpackChunkName: "Main" */ '@/layouts/Main'));
@@ -34,7 +35,13 @@ const routes: RouteConfig = {
         {
             path: '/',
             exact: true,
-            render: () => <Redirect to='/login' />
+            render: () =>{
+                if(Cookies.get('token')!== undefined){
+                    return <Redirect to={"/system"}/>
+                }else{
+                    return <Redirect to={"/login"}/>
+                }
+            }
         },
         {
             path: '/404',

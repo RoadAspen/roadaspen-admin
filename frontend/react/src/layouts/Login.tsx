@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import history from '@/utils/history';
-import { Button, Form, Input, Row, Col } from 'antd';
+import Cookies from 'js-cookie';
+import { Button, Form, Input, Row, Col, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { login, captchaImage } from '@/api/login.api';
 import * as loginStyle from '@/assets/css/login.less';
@@ -8,22 +9,30 @@ import { UserInfoContext } from '@/contexts/UserInfoContext';
 
 const Login = () => {
     const [state, dispatch] = useContext(UserInfoContext)
-    console.log(state);
+
     const [form] = Form.useForm();
+    
     // 按钮loading
     const [loading, setLoading] = useState(false);
 
     const [error, setError] = useState(false);
-    const [verify, setVerify] = useState({
+    const [captcha_image, setCaptchaImage] = useState({
         uuid: '',
         href: '',
     });
+    const getCookie = ()=>{ 
+        // 当组件挂载时，获取cookie 中存储的 账号密码和remember
+        const username = Cookies.get('username');
+        const password = Cookies.get('password');
+        const rememberMe = Cookies.get('rememberMe');
+    }
 
-    const get_verify = async () => {
+    const get_captchaImage = async () => {
+        // 获取验证码
         try {
             const { data } = await captchaImage();
             const href = btoa(unescape(encodeURIComponent(data.data)));
-            setVerify(() => ({
+            setCaptchaImage(() => ({
                 href: `data:image/svg+xml;base64,${href}`,
                 uuid: data.uuid,
             }));
@@ -33,22 +42,30 @@ const Login = () => {
     };
     useEffect(() => {
         // DidMount 时 获取验证码图片
-        get_verify();
+        get_captchaImage();
+        getCookie();
     }, []);
-    const onFinish = async <T extends {}>(values: T) => {
+    const onFinish = async (values:{[a:string]:string}) => {
         try {
             setLoading(true);
             const payload = {
                 ...values,
-                uuid: verify.uuid,
+                uuid: captcha_image.uuid,
             };
-            const { data } = await login(payload);
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('user', data.user.username);
+            // 如果记住密码，则将 用户输入的账号密码存入cookie中，并设置过期时间
+            if(values.remmberMe){
+                Cookies.set("username", values.username, { expires: 30 });
+                Cookies.set("password", values.password, { expires: 30 });
+                Cookies.set('rememberMe', values.rememberMe, { expires: 30 });
+            }
+            // 登录
+            const data = await login(payload);
+
+            Cookies.set("token","Bearea " + (data as any).token)
             setLoading(false);
-            history.push('/main/consumer');
+            history.push('/');
         } catch(error) {
-            setError(true);
+            
         } finally {
             setLoading(false);
         }
@@ -114,21 +131,21 @@ const Login = () => {
                         <Col span={8}>
                             <Form.Item>
                                 <img
-                                    src={verify.href}
+                                    src={captcha_image.href}
                                     alt='验证码'
-                                    onClick={get_verify}
+                                    onClick={get_captchaImage}
                                     style={{ cursor: 'pointer' }}
                                 />
                             </Form.Item>
                         </Col>
                     </Row>
-                    <Form.Item wrapperCol={{ span: 24 }} style={{ position: 'relative' }}>
-                        <p
-                            className={loginStyle.login_form_error}
-                            style={{ display: error ? 'block' : 'none' }}
-                        >
-                            账号密码错误
-                        </p>
+                    <Form.Item
+                        name='rememberMe'
+                        valuePropName="checked"
+                    >
+                        <Checkbox style={{color:'#606266',fontSize:'14px'}}>记住密码</Checkbox>
+                    </Form.Item>
+                    <Form.Item wrapperCol={{ span: 24 }}>
                         <Button
                             loading={loading}
                             htmlType='submit'

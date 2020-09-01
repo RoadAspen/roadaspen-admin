@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/jsonwebtoken": "^8.5.0",
     "@types/koa-redis": "^4.0.0",
     "@types/md5": "^2.2.0",
     "ejs": "^3.0.1",

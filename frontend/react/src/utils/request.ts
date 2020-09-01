@@ -12,9 +12,10 @@ const request = axios.create({
 //在发起请求之前,拦截请求
 request.interceptors.request.use(
     (config) => {
-        // 是否需要设置 token
-        const isToken = (config.headers || {}).isToken === false
-        if(getToken() && !isToken) {
+        // 是否需要设置 token,不传 isToken 则默认为true
+        const isToken = config.headers?.isToken || true;
+        // token存在 且 isToken 为 true
+        if(getToken() && isToken) {
             config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
         }
         return config
