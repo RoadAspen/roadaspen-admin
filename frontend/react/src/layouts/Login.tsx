@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
 import history from '@/utils/history';
 import Cookies from 'js-cookie';
-import { Button, Form, Input, Row, Col, Checkbox } from 'antd';
+import { Button, Form, Input, Row, Col, Checkbox, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { login, captchaImage } from '@/api/login.api';
 import * as loginStyle from '@/assets/css/login.less';
 import { UserInfoContext } from '@/contexts/UserInfoContext';
-
+import {TokenKey} from '@/utils/auth';
 const Login = () => {
     const [state, dispatch] = useContext(UserInfoContext)
 
@@ -61,11 +61,12 @@ const Login = () => {
             // 登录
             const data = await login(payload);
 
-            Cookies.set("token","Bearea " + (data as any).token)
+            Cookies.set(TokenKey,"Bearea " + (data as any).token)
             setLoading(false);
+            // 成功之后 跳转到 根路径， 根路径通过判断token来决定跳转至login还是index
             history.push('/');
         } catch(error) {
-            
+            message.error("")
         } finally {
             setLoading(false);
         }

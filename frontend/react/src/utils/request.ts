@@ -27,7 +27,7 @@ request.interceptors.request.use(
 
 //在请求返回之后，根据返回码做相应的操作，制定一个返回码对照表
 request.interceptors.response.use(
-    (res) => {
+    res => {
         // 未设置状态码则默认成功状态，所有后端正常返回都为 200，相信返回码在返回的信息中展示
         const code: number = res.data.code || 200;
         // 获取错误信息
