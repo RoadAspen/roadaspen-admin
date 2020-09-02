@@ -31,12 +31,14 @@ const login = async function(ctx: ICtx) {
     const body = ctx.request.body;
     // 如果账号密码正确，则返回 token 和 用户信息
     const token = jwt.sign({username:body.username},'ssssss',{algorithm:'HS256'});
-    ctx.body = { 
-        code: 200,
-        statusText: '登录成功',
-        data: {
-            token:token
-        }}
+    // ctx.body = { 
+    //     code: 200,
+    //     statusText: '登录成功',
+    //     data: {
+    //         token:token
+    //     }}
+    ctx.status = 201
+    ctx.body = {code:'201'}
 };
 
 const captchaImage = async function(ctx: ICtx) {

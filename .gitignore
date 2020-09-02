@@ -3,3 +3,4 @@ frontend/vue/node_modules
 frontend/react/dist
 frontend/vue/dist
 backend/koa2/node_modules
+backend/nest/node_modules
