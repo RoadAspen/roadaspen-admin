@@ -66,9 +66,10 @@ module.exports = {
         }],
         // '@typescript-eslint/indent': ['error', 2]
         '@typescript-eslint/explicit-function-return-type': 0, // 函数返回值是否需要类型
-        '@typescript-eslint/no-explicit-any': 0, // ts类型是否禁止 any
+        '@typescript-eslint/no-explicit-any': 0, // ts类型允许使用 any
         '@typescript-eslint/no-this-alias': 0, // 允许 this的 alias
         'function-paren-newline': 0, // 函数内部参数禁止换行
+        '@typescript-eslint/no-var-requires':0, // 允许使用 require 和var
         // "no-alert": 0, //禁止使用alert confirm prompt
         // "no-array-constructor": 2, //禁止使用数组构造器
         // "no-bitwise": 0, //禁止使用按位运算符
@@ -171,7 +172,7 @@ module.exports = {
         // "no-use-before-define": 2, //未定义前不能使用
         // "no-useless-call": 2, //禁止不必要的call和apply
         // "no-void": 2, //禁用void操作符
-        // "no-var": 0, //禁用var，用let和const代替
+        "no-var": 2, //禁用var，用let和const代替
         // "no-warning-comments": [1, {
         //     "terms": ["todo", "fixme", "xxx"],
         //     "location": "start"
