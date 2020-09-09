@@ -106,8 +106,8 @@ module.exports = {
         namedModules: true, // 生成更可读的模块名称，方便调试。 在 开发模式下启用，生产模式下禁用
     },
     devServer: {
+        // 开发服务器,主要设置开发服务器。
         // 配置 devServer
-        // 开发服务器
         /**
          * output里面的path表示的是output目录对应的一个绝对路径。
          * output里面的publicPath表示的是打包生成的index.html文件里面引用资源的前缀，默认为 "/"。
@@ -159,6 +159,8 @@ module.exports = {
         hints: 'warning', // 一个文件超过250kb时会警告
         maxEntrypointSize: 400000000, // 入口资源体积
         maxAssetSize: 400000000, // 单个打包资源体积
-        assetFilter: function() {}, // 文件过滤，哪些文件不需要大小提示
+        assetFilter: function() {
+            // pass
+        }, // 文件过滤，哪些文件不需要大小提示
     },
 };

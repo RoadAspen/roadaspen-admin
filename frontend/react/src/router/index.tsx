@@ -4,16 +4,40 @@ import { RouteConfig } from 'react-router-config';
 import { Redirect } from 'react-router';
 import React from 'react';
 import Cookies from 'js-cookie';
+import Loading from '@/components/Loading';
 // 使用 react-router-config 来配置 react-router
 // const Root = Loadable(() => import(/* webpackChunkName: "Root" */ '@/Root'));
-const Main = Loadable(() => import(/* webpackChunkName: "Main" */ '@/layouts/Main'));
-const Consumer = Loadable(() => import(/* webpackChunkName: "Consumer" */ '@/pages/system/Consumer'));
-const Page404 = Loadable(() => import(/* webpackChunkName: "Page404" */ '@/layouts/404'));
-const Login = Loadable(() => import(/* webpackChunkName: "Login" */ '@/layouts/Login'));
+const Main = Loadable(() => import(/* webpackChunkName: "Main" */ '@/layouts/Main'), {
+    fallback: <Loading />,
+});
+const Consumer = Loadable(
+    () => import(/* webpackChunkName: "Consumer" */ '@/pages/system/Consumer'),
+    {
+        fallback: <Loading />,
+    }
+);
+const Page404 = Loadable(() => import(/* webpackChunkName: "Page404" */ '@/layouts/404'), {
+    fallback: <Loading />,
+});
+const Login = Loadable(() => import(/* webpackChunkName: "Login" */ '@/layouts/Login'), {
+    fallback: <Loading />,
+});
 // eslint-disable-next-line react/prop-types
-// react-route-config 必须使用根路由
+// react-route-config , 白名单
 const routes: RouteConfig = {
     routes: [
+        {
+            path: '/',
+            exact: true,
+            render: () => {
+                // 根据是否存在token，来判断跳转
+                if (Cookies.get('token') !== undefined) {
+                    return <Redirect to={'/system'} />;
+                } else {
+                    return <Redirect to={'/login'} />;
+                }
+            },
+        },
         {
             path: '/login',
             label: '登录',
@@ -22,7 +46,8 @@ const routes: RouteConfig = {
         },
         {
             path: '/system',
-            component: Main,
+            label: '系统',
+            component: Main, //在 main中获取
             routes: [
                 {
                     path: '/system/user',
@@ -30,29 +55,24 @@ const routes: RouteConfig = {
                     exact: true,
                     component: Consumer,
                 },
+                {
+                    // 如果都没匹配到，就重定向到 /system/user
+                    path: '/system',
+                    exact: true,
+                    render() {
+                        return <Redirect to='/system/user' />;
+                    },
+                },
             ],
         },
         {
-            path: '/',
-            exact: true,
-            render: () =>{
-                if(Cookies.get('token')!== undefined){
-                    return <Redirect to={"/system"}/>
-                }else{
-                    return <Redirect to={"/login"}/>
-                }
-            }
-        },
-        {
-            path: '/404',
-            exact: true,
-            component: Page404
-        },
-        {
+            // 如果未找到，就转至404
             path: '*',
-            render: () => <Redirect to="/404" />
-        }
-    ]
+            exact: true,
+            label: '404',
+            component: Page404,
+        },
+    ],
 };
 
 export default routes;

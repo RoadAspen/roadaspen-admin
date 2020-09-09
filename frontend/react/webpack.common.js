@@ -108,10 +108,12 @@ const common = {
             },
         ],
     },
-    externals: {
-        react: 'React',
-        'react-dom': 'ReactDOM',
-    },
+    // externals: {
+    //     // 当js库通过CDN部署的时候，需要设置 externals，打包出来的包内就不含有该配置用的东西
+    //     react: 'React',
+    //     'react-dom': 'ReactDOM',
+    //     antd: 'antd',
+    // },
     plugins: [
         // 开发或者打包时的功能插件，如html注入js，打包时清空上次打包记录
         new HtmlWebpackPlugin({
@@ -124,9 +126,9 @@ const common = {
         new webpack.NoEmitOnErrorsPlugin(), // 如果编译时报错则不继续输出文件
     ],
     resolve: {
-        modules: [path.resolve(__dirname, 'src'), 'node_modules'], // 设置路径查找顺序,先查找 modules，在查找 node-modules
+        modules: [path.resolve(__dirname, 'src'), 'node_modules'], // 设置路径查找顺序,先在当前的src文件夹内查找modules，再查找 node-modules
         // 解析，主要用于 import导入路径
-        extensions: ['.js', '.ts', '.tsx'], // 自动解析扩展名
+        extensions: ['.js', '.ts', '.tsx'], // 自动解析扩展名,并按照顺序解析，当首个找到之后，会忽略后边的配置。
         alias: {
             // 别名
             '@': path.resolve(__dirname, 'src/'), // 以 @ 表示src目录

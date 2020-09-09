@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import StoreContextProvider from '@/contexts/ThemeContext';
-import { Router, Switch } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import history from '@/utils/history';
 import * as moment from 'moment';
 import 'moment/locale/zh-cn';
@@ -19,9 +19,7 @@ const App: React.FC = (): ReactElement => {
         <ConfigProvider locale={zhCN}>
             <StoreContextProvider>
                 <UserInfoContextProvider>
-                    <Router history={history}>
-                        {renderRoutes(routes.routes)}
-                    </Router>
+                    <Router history={history}>{renderRoutes(routes.routes)}</Router>
                 </UserInfoContextProvider>
             </StoreContextProvider>
         </ConfigProvider>

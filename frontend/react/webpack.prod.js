@@ -91,9 +91,13 @@ module.exports = {
         ],
     },
     optimization: {
-        // 优化选项，根据 mode执行不同的优化,常用的有，压缩，代码分割
+        // 优化选项，生产版本主要在于打包。常用的有，压缩，代码分割
         // minimize: true, // 是否开启压缩，production模式下是默认为true的,
         // namedChunks:false, // 读取chunk标识符， production 默认为false
+        runtimeChunk: {
+            // 提取runtime
+            name: 'runtime',
+        },
         splitChunks: {
             // 动态导入模块，代码分割，不会统一打包到同一个文件中
             chunks: 'async', //推荐为all。 async 是将按需加载的块分割出来。 initial 是 初始块，即在所有逻辑代码之前需要导入的依赖代码，又叫入口代码，如 react ，react-router。
@@ -104,28 +108,31 @@ module.exports = {
             maxInitialRequests: 3, // 初始请求的js块 最大为3 ，即优先同步加载js块。 入口点的最大并行请求数
             automaticNameDelimiter: '-', // 抽取出来的文件名字的分隔符，
             name: true, // 抽取出来的名字，表示自动生成文件名，默认为true
-            // cacheGroups: { // 缓存组，将公共模块缓存。 继承自 splitChunks 配置， test ， priority , reuseExistingChunk 只能在缓存组中配置
-            //     libs: { // 这个缓存组是将所有 node_modules 中的模块打包
-            //         name:'chunk-libs', // 代替自动生成的名字
-            //         test: /[\\/]node_modules[\\/]/, // 表示要过滤的 modules，默认为所有的modules，可匹配模块路径或chunk名字，当匹配的是chunk名字时，里边的所有modules都会被选中
-            //         priority:10, // 抽取权重，当一个module满足多个缓存组要求时，哪个权重大，就抽取到哪个组里。
-            //         chunks:'initial',
-            //         reuseExistingChunk:true, // 是否使用已有的chunk，如果当前的chunk包含的模块已经被抽取，则不会生成新的模块。
-            //     },
-            //     antd: { // 默认的chunk分块
-            //         name: 'chunk-antd',
-            //         // chunks: 'initial',
-            //         test:/[\\/]node_modules[\\/]_?antd(.*)/,
-            //         priority: 20,
-            //         // reuseExistingChunk:true, // 是否使用已有的chunk，如果当前的chunk包含的模块已经被抽取，则不会生成新的模块。
-            //     },
-            //     common: { // 默认的chunk分块
-            //         // name: 'chunk-antd',
-            //         chunks: 'all',
-            //         priority: 1,
-            //         // reuseExistingChunk:true, // 是否使用已有的chunk，如果当前的chunk包含的模块已经被抽取，则不会生成新的模块。
-            //     },
-            // }
+            cacheGroups: {
+                // 缓存组，将公共模块缓存。 继承自 splitChunks 配置， test ， priority , reuseExistingChunk 只能在缓存组中配置
+                libs: {
+                    // 这个缓存组是将所有 node_modules 中的模块打包
+                    name: 'chunk-libs', // 代替自动生成的名字
+                    test: /[\\/]node_modules[\\/]/, // 表示要过滤的 modules，默认为所有的modules，可匹配模块路径或chunk名字，当匹配的是chunk名字时，里边的所有modules都会被选中
+                    priority: 10, // 抽取权重，当一个module满足多个缓存组要求时，哪个权重大，就抽取到哪个组里。
+                    chunks: 'initial',
+                    reuseExistingChunk: true, // 是否使用已有的chunk，如果当前的chunk包含的模块已经被抽取，则不会生成新的模块。
+                },
+                antd: {
+                    // 默认的antd单独打包
+                    name: 'chunk-antd',
+                    chunks: 'initial',
+                    test: /[\\/]node_modules[\\/]_?antd(.*)/,
+                    priority: 20,
+                    // reuseExistingChunk:true, // 是否使用已有的chunk，如果当前的chunk包含的模块已经被抽取，则不会生成新的模块。
+                },
+                async: {
+                    // 默认的chunk分块，页面的共享代码
+                    chunks: 'async',
+                    priority: 1,
+                    reuseExistingChunk: true, // 是否使用已有的chunk，如果当前的chunk包含的模块已经被抽取，则不会生成新的模块。
+                },
+            },
         },
         // nodeEnv:false, // 设置 webpack环境的NODE_ENV，默认读取 mode的值，否则使用DefinePlugin设置值。
         noEmitOnErrors: true, // 编译出错时，会跳过生成阶段，确保没有生成出错误资源
