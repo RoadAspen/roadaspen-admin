@@ -1,7 +1,7 @@
 import { PoolConfig } from "mysql";
 
 export const mysql_db_conf:PoolConfig = {
-    host:'localhost',
+    host:'127.0.0.1:27017',
     port:3306,
     user:'root',
     password:'123456',

@@ -63,6 +63,7 @@ async function bootstrap(router: Router<any, {}>) {
         }
     }
     app.use(router.routes()).use(router.allowedMethods());
+    // app.listen(8081);
     db.once('open', function() {
         app.listen(8081);
         console.log('服务器连接成功 at 8081');

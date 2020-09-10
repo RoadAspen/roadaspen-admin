@@ -5,30 +5,14 @@ import { Redirect } from 'react-router';
 import React from 'react';
 import Cookies from 'js-cookie';
 import Loading from '@/components/Loading';
-// 使用 react-router-config 来配置 react-router
-// const Root = Loadable(() => import(/* webpackChunkName: "Root" */ '@/Root'));
-const Main = Loadable(() => import(/* webpackChunkName: "Main" */ '@/layouts/Main'), {
-    fallback: <Loading />,
-});
-const Consumer = Loadable(
-    () => import(/* webpackChunkName: "Consumer" */ '@/pages/system/Consumer'),
-    {
-        fallback: <Loading />,
-    }
-);
-const Page404 = Loadable(() => import(/* webpackChunkName: "Page404" */ '@/layouts/404'), {
-    fallback: <Loading />,
-});
-const Login = Loadable(() => import(/* webpackChunkName: "Login" */ '@/layouts/Login'), {
-    fallback: <Loading />,
-});
-// eslint-disable-next-line react/prop-types
+
 // react-route-config , 白名单
 const routes: RouteConfig = {
     routes: [
         {
             path: '/',
             exact: true,
+            hidden: true,
             render: () => {
                 // 根据是否存在token，来判断跳转
                 if (Cookies.get('token') !== undefined) {
@@ -41,27 +25,70 @@ const routes: RouteConfig = {
         {
             path: '/login',
             label: '登录',
+            hidden: true,
             exact: true,
-            component: Login,
+            component: Loadable(() => import(/* webpackChunkName: "Login" */ '@/layouts/Login'), {
+                fallback: <Loading />,
+            }),
         },
         {
-            path: '/system',
-            label: '系统',
-            component: Main, //在 main中获取
+            path: '/main',
+            label: '主页面',
+            hidden: true,
+            component: Loadable(() => import(/* webpackChunkName: "Main" */ '@/layouts/Main'), {
+                fallback: <Loading />,
+            }),
             routes: [
                 {
-                    path: '/system/user',
-                    label: '用户管理',
-                    exact: true,
-                    component: Consumer,
-                },
-                {
-                    // 如果都没匹配到，就重定向到 /system/user
-                    path: '/system',
+                    // 当进入main时，如果没有已有的redirect，则默认跳转到 index
+                    path: '/main',
                     exact: true,
                     render() {
-                        return <Redirect to='/system/user' />;
+                        return <Redirect to='/main/index' />;
                     },
+                },
+                {
+                    path: '/main/index',
+                    exact: true,
+                    component: Loadable(
+                        () => import(/* webpackChunkName: "Consumer" */ '@/pages/index/Index'),
+                        {
+                            fallback: <Loading />,
+                        }
+                    ),
+                },
+                {
+                    path: '/main/system',
+                    label: '系统',
+                    exact: true,
+                    render() {
+                        //
+                        return <Redirect to='/main/system/user' />;
+                    },
+                    routes: [
+                        {
+                            path: '/main/system/user',
+                            label: '用户管理',
+                            exact: true,
+                            component: Loadable(
+                                () =>
+                                    import(
+                                        /* webpackChunkName: "Consumer" */ '@/pages/system/Consumer'
+                                    ),
+                                {
+                                    fallback: <Loading />,
+                                }
+                            ),
+                        },
+                        {
+                            // 如果都没匹配到，就重定向到 /system/user
+                            path: '/main/system/user',
+                            exact: true,
+                            render() {
+                                return <Redirect to='/main/system/user' />;
+                            },
+                        },
+                    ],
                 },
             ],
         },
@@ -70,7 +97,9 @@ const routes: RouteConfig = {
             path: '*',
             exact: true,
             label: '404',
-            component: Page404,
+            component: Loadable(() => import(/* webpackChunkName: "Page404" */ '@/layouts/404'), {
+                fallback: <Loading />,
+            }),
         },
     ],
 };
