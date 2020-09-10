@@ -10,9 +10,9 @@ export type ICtx = ParameterizedContext<any, IRouterParamContext<any, {}>> ;
 
 
 /**
- * 学生 信息类型 types
+ * 角色 信息类型 types
  */
-export interface IStudent {
+export interface IRole {
 	num: string; //学号
 	name: string; //姓名
     gender: string; //性别
@@ -20,9 +20,9 @@ export interface IStudent {
 }
 
 /**
- * 教师 信息类型 types
+ * 权限 信息类型 types
  */
-export interface ITeacher {
+export interface IPermission {
 	num: string; //学号
 	name: string; //姓名
     gender: string; //性别

@@ -1,5 +1,5 @@
 // 登录
-import { ICtx } from "../interfaces/interface";
+import { ICtx } from "../interfaces/role.interface";
 import code from 'svg-captcha';
 import md5 from 'md5';
 import jwt from 'jsonwebtoken';
@@ -37,8 +37,8 @@ const login = async function(ctx: ICtx) {
     //     data: {
     //         token:token
     //     }}
-    ctx.status = 201
-    ctx.body = {code:'201'}
+    ctx.status = 200
+    ctx.body = {code:'200'}
 };
 
 const captchaImage = async function(ctx: ICtx) {

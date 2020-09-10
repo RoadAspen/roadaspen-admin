@@ -6,9 +6,8 @@ import fs from "fs";
 import { ParameterizedContext } from "koa";
 import { IRouterParamContext } from 'koa-router';
 export async function loadModules(dir_path: string) {
-	const dirpath = path.join(__dirname, dir_path);
 	// 读取路径文件夹下的目录
-	let files = await fs.promises.readdir(dirpath);
+	let files = await fs.promises.readdir(dir_path);
 	// 根据文件目录 导入文件
 	const router_list: Array<{
 		methods: string;
@@ -19,7 +18,7 @@ export async function loadModules(dir_path: string) {
 	const imports = await Promise.all(
 		files.map(async (file) => {
 			const a: { default: { [key: string]: (ctx: ParameterizedContext<any, IRouterParamContext<any, {}>>) => undefined } } = await import(
-				path.resolve(__dirname, dir_path, file)
+				path.join(dir_path, file)
 			);
 			return a.default;
 		})

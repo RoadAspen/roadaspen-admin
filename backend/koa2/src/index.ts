@@ -43,7 +43,7 @@ const router = new Router();
 // })
 
 async function bootstrap(router: Router<any, {}>) {
-    const router_list = await loadModules('views');
+    const router_list = await loadModules(path.resolve(__dirname,'views'));
     for(const item of router_list) {
         switch(item.methods) {
             case 'get':

@@ -1,7 +1,7 @@
 import { User, IUserModel } from "../models/user.model";
-import { ICtx } from "../interfaces/interface";
+import { ICtx } from "../interfaces/role.interface";
 
-
+// 获取user列表
 const getUser = async function (ctx:ICtx) {
 	const user_list = await User.find({});
 	ctx.response.body = {
@@ -9,6 +9,7 @@ const getUser = async function (ctx:ICtx) {
 	};
 };
 
+// 新增用户
 const registerUser = async function (ctx:ICtx) {
 	const body = ctx.request.body;
 	const userEntity: IUserModel = new User(); // 需要传入一个空对象作为默认值，或者直接传入对象作为新的Document
@@ -20,6 +21,6 @@ const registerUser = async function (ctx:ICtx) {
 };
 
 export default {
-	"get /user/": getUser,
+	"get /user/list": getUser,
 	"post /register/": registerUser,
 };
