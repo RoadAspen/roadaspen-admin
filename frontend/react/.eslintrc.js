@@ -69,7 +69,8 @@ module.exports = {
         '@typescript-eslint/no-explicit-any': 0, // ts类型允许使用 any
         '@typescript-eslint/no-this-alias': 0, // 允许 this的 alias
         'function-paren-newline': 0, // 函数内部参数禁止换行
-        '@typescript-eslint/no-var-requires':0, // 允许使用 require 和var
+        '@typescript-eslint/no-var-requires': 0, // 允许使用 require 和var
+        '@typescript-eslint/camelcase':0, //不强制使用驼峰命名
         // "no-alert": 0, //禁止使用alert confirm prompt
         // "no-array-constructor": 2, //禁止使用数组构造器
         // "no-bitwise": 0, //禁止使用按位运算符
@@ -150,7 +151,7 @@ module.exports = {
         // "no-sequences": 0, //禁止使用逗号运算符
         // "no-shadow": 2, //外部作用域中的变量不能与它所包含的作用域中的变量或参数同名
         // "no-shadow-restricted-names": 2, //严格模式中规定的限制标识符不能作为声明时的变量名使用
-        // "no-spaced-func": 2, //函数调用时 函数名与()之间不能有空格
+        "no-spaced-func": 2, //函数调用时 函数名与()之间不能有空格
         // "no-sparse-arrays": 2, //禁止稀疏数组， [1,,2]
         // "no-sync": 0, //nodejs 禁止同步方法
         // "no-ternary": 0, //禁止使用三目运算符
@@ -185,7 +186,7 @@ module.exports = {
         // "block-scoped-var": 0, //块语句中使用var
         // "brace-style": [1, "1tbs"], //大括号风格
         // "callback-return": 1, //避免多次调用回调什么的
-        // "camelcase": 2, //强制驼峰法命名
+        "camelcase": 0, //强制驼峰法命名
         // "comma-dangle": [2, "never"], //对象字面量项尾不能有逗号
         // "comma-spacing": 0, //逗号前后的空格
         // "comma-style": [2, "last"], //逗号风格，换行时在行首还是行尾

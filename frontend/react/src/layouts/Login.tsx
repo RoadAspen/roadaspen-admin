@@ -5,27 +5,33 @@ import { Button, Form, Input, Row, Col, Checkbox, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { login, captchaImage } from '@/api/login.api';
 import * as loginStyle from '@/assets/css/login.less';
-import { UserInfoContext } from '@/contexts/UserInfoContext';
-import {TokenKey} from '@/utils/auth';
+import { TokenKey } from '@/utils/auth';
+import { RouteConfigContext } from '@/contexts/RouteContext';
 const Login = () => {
-    const [state, dispatch] = useContext(UserInfoContext)
-
     const [form] = Form.useForm();
-    
+
     // 按钮loading
     const [loading, setLoading] = useState(false);
-
-    const [error, setError] = useState(false);
+    const [routes, dispatchRoutes] = useContext(RouteConfigContext);
+    // 当登录成功之后需要获取 route 和 userinfo 和 permissions， 之后跳转至main
+    useEffect(() => {
+        setTimeout(() => {
+            dispatchRoutes({
+                type: 'update',
+                payload: {},
+            });
+        }, 2000);
+    }, []);
     const [captcha_image, setCaptchaImage] = useState({
         uuid: '',
         href: '',
     });
-    const getCookie = ()=>{ 
+    const getCookie = () => {
         // 当组件挂载时，获取cookie 中存储的 账号密码和remember
         const username = Cookies.get('username');
         const password = Cookies.get('password');
         const rememberMe = Cookies.get('rememberMe');
-    }
+    };
 
     const get_captchaImage = async () => {
         // 获取验证码
@@ -36,7 +42,7 @@ const Login = () => {
                 href: `data:image/svg+xml;base64,${href}`,
                 uuid: data.uuid,
             }));
-        } catch(error) {
+        } catch (error) {
             console.log(error.message);
         }
     };
@@ -45,7 +51,7 @@ const Login = () => {
         get_captchaImage();
         getCookie();
     }, []);
-    const onFinish = async (values:{[a:string]:string}) => {
+    const onFinish = async (values: { [a: string]: string }) => {
         try {
             setLoading(true);
             const payload = {
@@ -53,20 +59,20 @@ const Login = () => {
                 uuid: captcha_image.uuid,
             };
             // 如果记住密码，则将 用户输入的账号密码存入cookie中，并设置过期时间
-            if(values.remmberMe){
-                Cookies.set("username", values.username, { expires: 30 });
-                Cookies.set("password", values.password, { expires: 30 });
+            if (values.remmberMe) {
+                Cookies.set('username', values.username, { expires: 30 });
+                Cookies.set('password', values.password, { expires: 30 });
                 Cookies.set('rememberMe', values.rememberMe, { expires: 30 });
             }
             // 登录
             const data = await login(payload);
 
-            Cookies.set(TokenKey,"Bearea " + (data as any).token)
+            Cookies.set(TokenKey, 'Bearea ' + (data as any).token);
             setLoading(false);
             // 成功之后 跳转到 根路径， 根路径通过判断token来决定跳转至login还是index
             history.push('/');
-        } catch(error) {
-            message.error("")
+        } catch (error) {
+            message.error('');
         } finally {
             setLoading(false);
         }
@@ -140,11 +146,8 @@ const Login = () => {
                             </Form.Item>
                         </Col>
                     </Row>
-                    <Form.Item
-                        name='rememberMe'
-                        valuePropName="checked"
-                    >
-                        <Checkbox style={{color:'#606266',fontSize:'14px'}}>记住密码</Checkbox>
+                    <Form.Item name='rememberMe' valuePropName='checked'>
+                        <Checkbox style={{ color: '#606266', fontSize: '14px' }}>记住密码</Checkbox>
                     </Form.Item>
                     <Form.Item wrapperCol={{ span: 24 }}>
                         <Button

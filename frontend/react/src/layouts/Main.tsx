@@ -15,7 +15,6 @@ const { Header, Sider, Content } = Layout;
 // content 页面上下布局， 采用 flex ，header，footer 高度固定。page 高度自适应
 
 const Main = (props: any) => {
-    console.log(props);
     const [collapsed, setCollapsed] = useState<boolean>(false);
     function toggle() {
         setCollapsed((collapsed) => !collapsed);

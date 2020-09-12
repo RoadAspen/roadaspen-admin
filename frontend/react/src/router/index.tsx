@@ -6,7 +6,7 @@ import React from 'react';
 import Cookies from 'js-cookie';
 import Loading from '@/components/Loading';
 
-// react-route-config , 白名单
+// react-route-config , 白名单，如果需要返回上一页并保持退出的状态，则需要把页面的状态信息都存入到redux或者context中
 const routes: RouteConfig = {
     routes: [
         {
@@ -103,5 +103,4 @@ const routes: RouteConfig = {
         },
     ],
 };
-
 export default routes;

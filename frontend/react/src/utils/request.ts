@@ -29,11 +29,11 @@ request.interceptors.request.use(
 request.interceptors.response.use(
     (res) => {
         // 未设置状态码则默认成功状态，所有后端正常返回都为 200，相信返回码在返回的信息中展示
-        const code: number = res.data.code || 200;
+        const code: string = String(res.data.code) || '200';
         // 获取错误信息
         const msg = errorCode[code] || res.data.msg || errorCode['default'];
         //当 返回的code为401时，需要重新登录
-        if (code === 401) {
+        if (code === '401') {
             Modal.confirm({
                 title: '系统提示',
                 content: '登录状态已过期，您可以继续留在该页面，或者重新登录',
@@ -45,15 +45,15 @@ request.interceptors.response.use(
                     location.href = '/login';
                 },
             });
-        } else if (code === 403) {
+        } else if (code === '403') {
             // 如果时 500 则为服务器错误
             message.warn(msg);
             return Promise.reject(new Error(msg));
-        } else if (code === 500) {
+        } else if (code === '500') {
             // 如果时 500 则为服务器错误
             message.error(msg);
             return Promise.reject(new Error(msg));
-        } else if (code !== 200) {
+        } else if (code !== '200') {
             message.error(msg);
             return Promise.reject('error');
         }
@@ -61,7 +61,6 @@ request.interceptors.response.use(
     },
     (error) => {
         // 接口状态码 >=300 时，会进入 error
-        console.log(error.message);
         let msg = error.message;
         if (msg == 'Network Error') {
             msg = '后端接口连接异常';
@@ -70,7 +69,7 @@ request.interceptors.response.use(
         } else if (msg.includes('Request failed with status code')) {
             msg = '系统接口' + msg.substr(msg.length - 3) + '异常';
         }
-        message.error(msg);
+        // message.error(msg);
         return Promise.reject(error);
     }
 );
