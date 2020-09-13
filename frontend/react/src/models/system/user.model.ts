@@ -1,7 +1,6 @@
 import React, { useReducer } from 'react';
-import { Map } from 'immutable';
 
-export interface ConsumerState {
+export interface UserState {
     id: number;
     creaded_at: string;
     updated_at: string;
@@ -13,18 +12,18 @@ export interface ConsumerState {
     description: string;
 }
 
-export interface ConsumerPageState {
+export interface UserPageState {
     current: number;
     pageSize: number;
     total: number;
     username: string | undefined;
-    consumer_list: ConsumerState[];
+    user_list: UserState[];
     modal_visible: boolean;
     table_loading: boolean;
-    handleType: 'add' | 'edit'
+    handleType: 'add' | 'edit';
 }
 
-export type Payload = Partial<ConsumerPageState>;
+export type Payload = Partial<UserPageState>;
 
 export type OnlyActionType =
     | 'modal_show'
@@ -34,20 +33,20 @@ export type OnlyActionType =
 
 type Action = { type: OnlyActionType } | { type: 'update'; payload: Payload };
 
-const initicalState: ConsumerPageState = {
+const initicalState: UserPageState = {
     current: 1,
     pageSize: 10,
     total: 0,
     username: undefined,
-    consumer_list: [],
+    user_list: [],
     modal_visible: false,
     table_loading: false,
-    handleType: 'add'
+    handleType: 'add',
 };
 
-function consumerReducer(state: ConsumerPageState, action: Action): ConsumerPageState;
-function consumerReducer(state: ConsumerPageState, action: Action) {
-    switch(action.type) {
+function userReducer(state: UserPageState, action: Action): UserPageState;
+function userReducer(state: UserPageState, action: Action) {
+    switch (action.type) {
         case 'update':
             return { ...state, ...action.payload };
         case 'modal_show':
@@ -63,11 +62,11 @@ function consumerReducer(state: ConsumerPageState, action: Action) {
     }
 }
 
-function useConsumer(): [ConsumerPageState, React.Dispatch<Action>];
+function useUser(): [UserPageState, React.Dispatch<Action>];
 
-function useConsumer() {
-    const [ConsumerPageState, setConsumerPageState] = useReducer(consumerReducer, initicalState);
-    return [ConsumerPageState, setConsumerPageState];
+function useUser() {
+    const [UserPageState, setUserPageState] = useReducer(userReducer, initicalState);
+    return [UserPageState, setUserPageState];
 }
 
-export default useConsumer;
+export default useUser;

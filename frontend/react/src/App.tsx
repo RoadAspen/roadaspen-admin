@@ -6,7 +6,8 @@ import zhCN from 'antd/es/locale/zh_CN';
 import { ConfigProvider } from 'antd';
 import UserInfoContextProvider from '@/contexts/UserInfoContext';
 import RouteConfigProvider from '@/contexts/RouteContext';
-import Routers from './Routes';
+import Routers from '@/router/index';
+
 moment.locale('zh-cn');
 
 const App: React.FC = (): ReactElement => {

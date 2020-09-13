@@ -4,7 +4,7 @@ import { Button, Row, Col, Select, Modal, Table } from 'antd';
 import request from '@/utils/request';
 import { RouteComponentProps } from 'react-router';
 import { ColumnProps } from 'antd/lib/table';
-import useConsumer, { ConsumerState, OnlyActionType } from '@/models/main/consumer.model';
+import useUser, { UserState, OnlyActionType } from '@/models/system/user.model';
 import { PaginationConfig } from 'antd/lib/pagination';
 const Option = Select.Option;
 
@@ -13,7 +13,7 @@ const Option = Select.Option;
 
 type Props = RouteComponentProps;
 
-const columns: ColumnProps<ConsumerState>[] = [
+const columns: ColumnProps<UserState>[] = [
     {
         title: '账号',
         dataIndex: 'username',
@@ -53,37 +53,37 @@ const columns: ColumnProps<ConsumerState>[] = [
         },
     },
 ];
-function Consumer(props: Props): ReactElement {
-    const [consumerPageState, setConsumerPageState] = useConsumer();
+function User(props: Props): ReactElement {
+    const [UserPageState, setUserPageState] = useUser();
     const {
         current,
         pageSize,
         total,
         handleType,
-        consumer_list,
+        user_list,
         modal_visible,
         username,
         table_loading,
-    } = consumerPageState;
+    } = UserPageState;
     const handleSearch = useCallback(() => {
         return async function(page = 1, page_size = pageSize) {
-            setConsumerPageState({
+            setUserPageState({
                 type: 'get_table_list_data_start',
             });
             try {
                 // 如果不传 page，page_size  则 取默认值
-                const { data } = await request.get('/consumer/', {
+                const { data } = await request.get('/User/', {
                     params: { page, page_size, username },
                 });
-                setConsumerPageState({
+                setUserPageState({
                     type: 'update',
                     payload: {
-                        consumer_list: data?.results || [],
+                        user_list: data?.results || [],
                         table_loading: false,
                     },
                 });
             } catch(error) {
-                setConsumerPageState({
+                setUserPageState({
                     type: 'update',
                     payload: {
                         table_loading: false,
@@ -96,18 +96,18 @@ function Consumer(props: Props): ReactElement {
         handleSearch();
     }, []);
     function handleModalToggle(type: OnlyActionType, handleType: 'add' | 'edit') {
-        setConsumerPageState({
+        setUserPageState({
             type
         });
     }
-    function addConsumer() {
+    function addUser() {
         //pass
     }
-    function editConsumer() {
+    function editUser() {
         //pass
     }
     function handleTableChange(pagination: PaginationConfig) {
-        setConsumerPageState({
+        setUserPageState({
             type: 'update',
             payload: {
                 current: pagination.current,
@@ -150,11 +150,11 @@ function Consumer(props: Props): ReactElement {
                         </Button>
                 </Col>
                 <Col span={24} style={{ marginBottom: 20 }}>
-                    <Table<ConsumerState>
+                    <Table<UserState>
                         bordered={true}
-                        rowKey={(record: ConsumerState) => `${record.id}`}
+                        rowKey={(record: UserState) => `${record.id}`}
                         columns={columns}
-                        dataSource={consumer_list}
+                        dataSource={user_list}
                         pagination={pagination}
                         // onChange={handleTableChange}
                         loading={table_loading}
@@ -162,11 +162,11 @@ function Consumer(props: Props): ReactElement {
                 </Col>
             </Row>
             <Modal
-                title={handleType === 'add' ? '新增账号' : '编辑'}
+                title={handleType === 'add' ? '新增用户' : '编辑'}
                 confirmLoading={true}
                 destroyOnClose={true}
                 visible={modal_visible}
-                onOk={addConsumer}
+                onOk={addUser}
                 onCancel={() => handleModalToggle('modal_close', 'add')}
             >
                 {/*s*/}
@@ -175,4 +175,4 @@ function Consumer(props: Props): ReactElement {
     );
 }
 
-export default Consumer;
+export default User;
