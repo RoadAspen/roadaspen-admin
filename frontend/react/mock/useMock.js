@@ -39,7 +39,11 @@ function useMock(app) {
                 },
             ],
         });
-        res.status(200).send(data);
+        res.status(200).send({
+            code: 200,
+            statusText: 'OK',
+            data: data,
+        });
     });
 
     app.get('/api/captchaImage/', (req, res) => {
