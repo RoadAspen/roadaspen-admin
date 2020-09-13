@@ -12,16 +12,8 @@ const Login = () => {
 
     // 按钮loading
     const [loading, setLoading] = useState(false);
-    const [routes, dispatchRoutes] = useContext(RouteConfigContext);
+    const { dispatchRoutes } = useContext(RouteConfigContext);
     // 当登录成功之后需要获取 route 和 userinfo 和 permissions， 之后跳转至main
-    useEffect(() => {
-        setTimeout(() => {
-            dispatchRoutes({
-                type: 'update',
-                payload: {},
-            });
-        }, 2000);
-    }, []);
     const [captcha_image, setCaptchaImage] = useState({
         uuid: '',
         href: '',

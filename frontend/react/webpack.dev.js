@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
+const useMock = require('./mock/useMock');
 // 当mode为development的时候为开发模式，此时一切以编译速度，快速debug为主，取消一切代码优化操作。
 module.exports = {
     entry: ['react-hot-loader/patch'],

@@ -46,17 +46,15 @@ function reducer(state: UserInfo, action: Action): UserInfo {
     }
 }
 
-type ContextType = [UserInfo, React.Dispatch<Action>];
+type ContextType = { state: UserInfo; dispatch: React.Dispatch<Action> };
 
-export const UserInfoContext = React.createContext<ContextType>({} as ContextType);
+export const ThemeContext = React.createContext<ContextType>({} as ContextType);
 
 const UserInfoContextProvider = (props: { children: React.ReactNode }) => {
     // prettier-ignore
     const [state, dispatch] = useReducer(reducer, initialState);
     return (
-        <UserInfoContext.Provider value={[state, dispatch]}>
-            {props.children}
-        </UserInfoContext.Provider>
+        <ThemeContext.Provider value={{ state, dispatch }}>{props.children}</ThemeContext.Provider>
     );
 };
 export default UserInfoContextProvider;

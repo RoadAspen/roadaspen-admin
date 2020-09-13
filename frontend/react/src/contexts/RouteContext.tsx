@@ -127,15 +127,15 @@ function reducer(state: RouteConfig, action: Action): RouteConfig {
     }
 }
 
-type ContextType = [RouteConfig, React.Dispatch<Action>];
+type ContextType = { routes: RouteConfig; dispatchRoutes: React.Dispatch<Action> };
 
 export const RouteConfigContext = React.createContext<ContextType>({} as ContextType);
 
 const RouteConfigProvider = (props: { children: React.ReactNode }) => {
     // prettier-ignore
-    const [state, dispatch] = useReducer(reducer, initialState);
+    const [routes, dispatchRoutes] = useReducer(reducer, initialState);
     return (
-        <RouteConfigContext.Provider value={[state, dispatch]}>
+        <RouteConfigContext.Provider value={{ routes, dispatchRoutes }}>
             {props.children}
         </RouteConfigContext.Provider>
     );

@@ -26,7 +26,7 @@ function reducer(state: ThemeType = initialState, action: Action) {
     }
 }
 
-type ContextType = [ThemeType, React.Dispatch<Action>];
+type ContextType = { state: ThemeType; dispatch: React.Dispatch<Action> };
 
 export const ThemeContext = React.createContext<ContextType>({} as ContextType);
 
@@ -34,7 +34,7 @@ const StoreContextProvider = (props: { children: React.ReactNode }) => {
     // prettier-ignore
     const [state, dispatch] = useReducer(reducer, initialState);
     return (
-        <ThemeContext.Provider value={[state, dispatch]}>{props.children}</ThemeContext.Provider>
+        <ThemeContext.Provider value={{ state, dispatch }}>{props.children}</ThemeContext.Provider>
     );
 };
 export default StoreContextProvider;
