@@ -6,7 +6,7 @@ import React, { useReducer } from 'react';
 import { RouteConfig } from 'react-router-config';
 import Cookies from 'js-cookie';
 import { Redirect } from 'react-router-dom';
-import Loading from '@/components/Loading';
+import Loading from '@/components/loading';
 import Loadable from '@loadable/component';
 
 // 初始化路由
@@ -30,7 +30,7 @@ const routes: RouteConfig = {
             label: '登录',
             hidden: true,
             exact: true,
-            component: Loadable(() => import(/* webpackChunkName: "Login" */ '@/layouts/Login'), {
+            component: Loadable(() => import(/* webpackChunkName: "Login" */ '@/pages/login'), {
                 fallback: <Loading />,
             }),
         },
@@ -38,7 +38,7 @@ const routes: RouteConfig = {
             path: '/system',
             label: '系统管理',
             hidden: true,
-            component: Loadable(() => import(/* webpackChunkName: "Main" */ '@/layouts/Layout'), {
+            component: Loadable(() => import(/* webpackChunkName: "Main" */ '@/layout'), {
                 fallback: <Loading />,
             }),
             routes: [
@@ -101,7 +101,7 @@ const routes: RouteConfig = {
             path: '*',
             exact: true,
             label: '404',
-            component: Loadable(() => import(/* webpackChunkName: "Page404" */ '@/layouts/404'), {
+            component: Loadable(() => import(/* webpackChunkName: "Page404" */ '@/pages/404'), {
                 fallback: <Loading />,
             }),
         },
