@@ -4,7 +4,7 @@ import { Button, Row, Col, Select, Modal, Table } from 'antd';
 import request from '@/utils/request';
 import { RouteComponentProps } from 'react-router';
 import { ColumnProps } from 'antd/lib/table';
-import useUser, { UserState, OnlyActionType } from '@/models/system/user.model';
+import useUser, { UserState, OnlyActionType } from '@/store/models/system/user.model';
 import { PaginationConfig } from 'antd/lib/pagination';
 const Option = Select.Option;
 

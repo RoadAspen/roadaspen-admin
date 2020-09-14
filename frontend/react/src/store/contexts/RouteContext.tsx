@@ -9,6 +9,19 @@ import { Redirect } from 'react-router-dom';
 import Loading from '@/components/loading';
 import Loadable from '@loadable/component';
 
+const Page404 = Loadable(() => import(/* webpackChunkName: "Page404" */ '@/pages/404'), {
+    fallback: <Loading />,
+});
+
+const Login = Loadable(() => import(/* webpackChunkName: "Login" */ '@/pages/login'), {
+    fallback: <Loading />,
+});
+const Layout = Loadable(() => import(/* webpackChunkName: "Layout" */ '@/layout'), {
+    fallback: <Loading />,
+});
+const User = Loadable(() => import(/* webpackChunkName: "User" */ '@/pages/system/user'), {
+    fallback: <Loading />,
+});
 // 初始化路由
 const routes: RouteConfig = {
     routes: [
@@ -30,80 +43,62 @@ const routes: RouteConfig = {
             label: '登录',
             hidden: true,
             exact: true,
-            component: Loadable(() => import(/* webpackChunkName: "Login" */ '@/pages/login'), {
-                fallback: <Loading />,
-            }),
+            component: Login,
         },
         {
             path: '/system',
             label: '系统管理',
-            hidden: true,
-            component: Loadable(() => import(/* webpackChunkName: "Main" */ '@/layout'), {
-                fallback: <Loading />,
-            }),
+            icon: '',
+            hidden: false,
+            component: Layout,
             routes: [
-                {
-                    // 当进入system时，如果没有已有的redirect，则默认跳转到 user
-                    path: '/system',
-                    exact: true,
-                    render() {
-                        return <Redirect to='/system/user' />;
-                    },
-                },
                 {
                     path: '/system/user',
                     exact: true,
+                    icon: '',
+                    hidden: false,
                     label: '用户管理',
-                    component: Loadable(
-                        () => import(/* webpackChunkName: "Consumer" */ '@/pages/system/user'),
-                        {
-                            fallback: <Loading />,
-                        }
-                    ),
+                    component: User,
                 },
                 {
-                    path: '/main/system',
-                    label: '系统',
-                    exact: true,
+                    // 如果未找到，就转至404
+                    path: '*',
+                    hidden: true,
                     render() {
-                        //
-                        return <Redirect to='/main/system/user' />;
+                        return <Redirect to='/404' />;
                     },
-                    routes: [
-                        {
-                            path: '/main/system/user',
-                            label: '用户管理',
-                            exact: true,
-                            component: Loadable(
-                                () =>
-                                    import(
-                                        /* webpackChunkName: "Consumer" */ '@/pages/system/user'
-                                    ),
-                                {
-                                    fallback: <Loading />,
-                                }
-                            ),
-                        },
-                        {
-                            // 如果都没匹配到，就重定向到 /system/user
-                            path: '/main/system/user',
-                            exact: true,
-                            render() {
-                                return <Redirect to='/main/system/user' />;
-                            },
-                        },
-                    ],
+                },
+            ],
+        },
+        {
+            path: '/monitor',
+            label: '系统告警',
+            icon: '',
+            component: Layout,
+            routes: [
+                {
+                    path: '/monitor/user',
+                    exact: true,
+                    icon: '',
+                    label: '用户管理',
+                    component: User,
+                },
+                {
+                    // 如果未找到，就转至404
+                    path: '*',
+                    hidden: true,
+                    render() {
+                        return <Redirect to='/404' />;
+                    },
                 },
             ],
         },
         {
             // 如果未找到，就转至404
             path: '*',
-            exact: true,
             label: '404',
-            component: Loadable(() => import(/* webpackChunkName: "Page404" */ '@/pages/404'), {
-                fallback: <Loading />,
-            }),
+            hidden: true,
+            component: Page404,
         },
     ],
 };

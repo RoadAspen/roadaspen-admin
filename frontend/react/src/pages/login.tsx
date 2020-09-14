@@ -6,7 +6,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { login, captchaImage } from '@/api/login.api';
 import * as loginStyle from '@/assets/css/login.less';
 import { TokenKey } from '@/utils/auth';
-import { RouteConfigContext } from '@/contexts/RouteContext';
+import { RouteConfigContext } from '@/store/contexts/RouteContext';
 const Login = () => {
     const [form] = Form.useForm();
 
