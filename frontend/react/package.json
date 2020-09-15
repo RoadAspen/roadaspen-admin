@@ -4,12 +4,13 @@
   "description": "this is a single page application by hand made ",
   "main": "index.tsx",
   "scripts": {
+    "analyze": "source-map-explorer build/static/js/main.*",
     "dev": "cross-env NODE_ENV=development npx webpack-dev-server --config webpack.config.js --colors",
     "mock": "cross-env NODE_ENV=development MOCK=true npx webpack-dev-server --config webpack.config.js --colors",
     "build": "cross-env NODE_ENV=production npx webpack --config webpack.config.js --colors",
     "watch": "npx webpack --config webpack.config.js --colors --watch",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "line":"eslint --ext .ts,.tsx,.js src"
+    "line": "eslint --ext .ts,.tsx,.js src"
   },
   "husky": {
     "hooks": {
@@ -22,8 +23,8 @@
     "ant-design",
     "dashboard"
   ],
-  "lint-staged":{
-    "src/**/*.{ts,tsx,js}":[
+  "lint-staged": {
+    "src/**/*.{ts,tsx,js}": [
       "eslint --fix",
       "git add"
     ]
@@ -37,6 +38,7 @@
     "antd": "^4.2.0",
     "axios": "^0.19.2",
     "babel-polyfill": "^6.26.0",
+    "customize-cra": "^1.0.0",
     "history": "^4.10.1",
     "immutable": "^4.0.0-rc.12",
     "js-cookie": "^2.2.1",
@@ -53,6 +55,7 @@
     "react-router-config": "^5.1.1",
     "react-router-dom": "^5.1.2",
     "runtime": "^0.14.1",
+    "source-map-explorer": "^2.5.0",
     "svg-captcha": "^1.4.0"
   },
   "devDependencies": {
