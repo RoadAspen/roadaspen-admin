@@ -8,10 +8,28 @@
     "mock": "cross-env NODE_ENV=development MOCK=true npx webpack-dev-server --config webpack.config.js --colors",
     "build": "cross-env NODE_ENV=production npx webpack --config webpack.config.js --colors",
     "watch": "npx webpack --config webpack.config.js --colors --watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "line":"eslint --ext .ts,.tsx,.js src"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "keywords": [
+    "react",
+    "admin",
+    "ant-design",
+    "dashboard"
+  ],
+  "lint-staged":{
+    "src/**/*.{ts,tsx,js}":[
+      "eslint --fix",
+      "git add"
+    ]
   },
   "author": "roadaspen",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@loadable/component": "^5.13.1",
     "@types/js-cookie": "^2.2.6",

@@ -12,15 +12,17 @@ moment.locale('zh-cn');
 
 const App: React.FC = (): ReactElement => {
     return (
-        <ConfigProvider locale={zhCN}>
-            <StoreContextProvider>
-                <UserInfoContextProvider>
-                    <RouteConfigProvider>
-                        <Routers />
-                    </RouteConfigProvider>
-                </UserInfoContextProvider>
-            </StoreContextProvider>
-        </ConfigProvider>
+        <React.StrictMode>
+            <ConfigProvider locale={zhCN}>
+                <StoreContextProvider>
+                    <UserInfoContextProvider>
+                        <RouteConfigProvider>
+                            <Routers />
+                        </RouteConfigProvider>
+                    </UserInfoContextProvider>
+                </StoreContextProvider>
+            </ConfigProvider>
+        </React.StrictMode>
     );
 };
 
