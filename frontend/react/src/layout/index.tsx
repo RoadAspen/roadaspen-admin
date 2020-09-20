@@ -8,7 +8,7 @@ import {
     VideoCameraOutlined,
     UploadOutlined,
 } from '@ant-design/icons';
-import ScrollToTopOnMount from '@/components/ScrollToTopOnMount';
+import ScrollToTopOnMount from '@/components/scrollToTopOnMount';
 const { Header, Sider, Content } = Layout;
 
 // main 页面左右布局。采用flex， aside 宽度固定，右侧 content 宽度自适应

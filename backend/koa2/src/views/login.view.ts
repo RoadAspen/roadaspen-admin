@@ -19,7 +19,7 @@ function createCode() {
         ignoreChars: '0o1iIl',//过滤掉一些字符，例如0o1i
         noise: 0, //噪声线数
         background: '#eee',// SVG图片的背景颜色
-        color: false, //字符将具有不同的颜色而不是灰色，如果设置了背景选项，则为true
+        color: true, //字符将具有不同的颜色而不是灰色，如果设置了背景选项，则为true
         mathMin: 1, //数学表达式可以为的最小值
         mathMax: 9, //数学表达式可以为的最大值
         mathOperator: '+', //要使用+，-或的运算符+-（对于random +或-）

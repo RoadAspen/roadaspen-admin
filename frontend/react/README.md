@@ -1,7 +1,7 @@
 # 基于 Babel 、Typescript 、Webpack 、React 构建前端开发环境。
 
 ## 项目简介
-react-hoks-ts 是一个基于 react、koa2、mongoDB 的快速开发平台，内置多个常用模块，支持集群和多数据源,从零开始配置 webpack ，搭建 react 全家桶。根据react hooks 快速实现 基于 懒加载 ， 路由配置，权限管理等多重功能。。
+react是一个基于 react、koa2、mongoDB 的快速开发平台，内置多个常用模块，支持集群和多数据源,从零开始配置 webpack ，搭建 react 全家桶。根据react hooks 快速实现 基于 懒加载 ， 路由配置，权限管理等多重功能。。
 ## 主要特性
 - 从零搭建webpack开发环境。
 - 使用前后端同时使用 Typesctipt 开发。
