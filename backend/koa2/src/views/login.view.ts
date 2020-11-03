@@ -4,6 +4,7 @@ import code from 'svg-captcha';
 import md5 from 'md5';
 import jwt from 'jsonwebtoken';
 
+
 code.options.width = 200;
 code.options.height = 200;
 code.options.fontSize = 12;

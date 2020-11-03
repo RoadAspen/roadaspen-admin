@@ -42,4 +42,4 @@ const query = function (sql: string, args?: string[]): Promise<Array<any>> {
 		}
 	});
 };
-export default { query };
+export default query;

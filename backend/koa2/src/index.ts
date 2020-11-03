@@ -2,12 +2,14 @@ import Koa from 'koa';
 import bodyparser from 'koa-bodyparser';
 import statics from 'koa-static';
 import Router from 'koa-router';
+// import query from './db/mysqlquery';
 import db from './db/mongo';
 import path from 'path';
 import { loadModules } from './loadModules';
 
-
 import session from 'koa-session';
+import redis from 'koa-redis';
+
 const app = new Koa();
 
 app.keys = ['this_is_app_secret_key'];
