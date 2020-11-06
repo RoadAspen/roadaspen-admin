@@ -1,18 +1,18 @@
 // 登录
 import { ICtx } from "../interfaces/role.interface";
-import code from 'svg-captcha';
+import svgCaptcha from 'svg-captcha';
 import md5 from 'md5';
 import jwt from 'jsonwebtoken';
 
 
-code.options.width = 200;
-code.options.height = 200;
-code.options.fontSize = 12;
+svgCaptcha.options.width = 200;
+svgCaptcha.options.height = 200;
+svgCaptcha.options.fontSize = 12;
 
 // 创建验证码
 function createCode() {
     // 返回数学算式
-    return code.createMathExpr({
+    return svgCaptcha.createMathExpr({
         width: 100,
         height: 40,
         fontSize: 50,

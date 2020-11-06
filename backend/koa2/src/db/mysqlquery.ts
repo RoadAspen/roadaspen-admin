@@ -2,7 +2,7 @@
  * 定义mysql
  */
 import mysql from "mysql";
-import { mysql_db_conf } from "./db_conf";
+import { mysql_db_conf } from "./config";
 
 class MyPool {
 	flag: boolean;

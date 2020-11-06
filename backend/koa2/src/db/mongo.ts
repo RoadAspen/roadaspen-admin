@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
-import { mongo_db_conf } from "./db_conf";
+import { mongo_db_conf } from "./config";
 
 mongoose.connect(mongo_db_conf.db_url, {
-	useNewUrlParser: true,
-	useUnifiedTopology: true,
-	keepAlive:true
+	useNewUrlParser: true, // 使用新版的url解析
+	useUnifiedTopology: true, // 
+	keepAlive:true, // 是否保持连接
 });
 mongoose.Promise = global.Promise;
 

@@ -1,3 +1,6 @@
+/**
+ * 字典表
+ */
 import { ParameterizedContext } from "koa";
 import { IRouterParamContext } from "koa-router";
 

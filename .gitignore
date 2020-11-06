@@ -3,6 +3,11 @@ frontend/vue/node_modules
 frontend/react/dist
 frontend/react/.idea
 frontend/react/.vscode
+frontend/roadaspen-admin-react/node_modules
+frontend/roadaspen-admin-react/dist
+frontend/roadaspen-admin-react/.idea
+frontend/roadaspen-admin-react/.vscode
+frontend/roadaspen-admin-react/src/.umi
 frontend/vue/dist
 frontend/vue/.idea
 frontend/vue/.vscode
