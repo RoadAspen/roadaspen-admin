@@ -4,6 +4,7 @@ import { EffectsCommandMap } from 'dva';
 import { stringify, parse } from 'qs';
 
 export function getPageQuery() {
+  // 获取 url上的 query search属性
   return parse(window.location.href.split('?')[1]);
 }
 
@@ -12,6 +13,7 @@ export type Effect = (
   effects: EffectsCommandMap & { select: <T>(func: (state: {}) => T) => T },
 ) => void;
 
+// model type
 export interface ModelType {
   namespace: string;
   state: {};
@@ -34,10 +36,11 @@ const Model: ModelType = {
     *logout(_, { put }) {
       const { redirect } = getPageQuery();
       // redirect
-      if (window.location.pathname !== '/user/login' && !redirect) {
+      if (window.location.pathname !== '/login' && !redirect) {
+        // 如果
         yield put(
           routerRedux.replace({
-            pathname: '/user/login',
+            pathname: '/login',
             search: stringify({
               redirect: window.location.href,
             }),
