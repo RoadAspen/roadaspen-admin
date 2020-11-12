@@ -3,9 +3,9 @@ import Cookies from 'js-cookie';
 import { Button, Form, Input, Row, Col, Checkbox, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { routerRedux } from 'dva/router';
-import { login, captchaImage } from '@/api/login.api';
+import { login, captchaImage } from '@/services/login';
 import * as loginStyle from './login.less';
-import { TokenKey } from '@/utils/auth';
+import { TokenKey } from '@/utils/config';
 const Login = () => {
     const [form] = Form.useForm();
 
@@ -38,9 +38,7 @@ const Login = () => {
     };
     useEffect(() => {
         // DidMount 时 获取验证码图片
-        console.log('执行一次');
         get_captchaImage();
-        getCookie();
     }, []);
     const onFinish = async (values: { [a: string]: string }) => {
         try {
@@ -49,12 +47,6 @@ const Login = () => {
                 ...values,
                 uuid: captcha_image.uuid,
             };
-            // 如果记住密码，则将 用户输入的账号密码存入cookie中，并设置过期时间
-            if (values.remmberMe) {
-                Cookies.set('username', values.username, { expires: 30 });
-                Cookies.set('password', values.password, { expires: 30 });
-                Cookies.set('rememberMe', values.rememberMe, { expires: 30 });
-            }
             // 登录
             const data = await login(payload);
 
@@ -63,7 +55,7 @@ const Login = () => {
             // 成功之后 跳转到 根路径， 根路径通过判断token来决定跳转至login还是index
             routerRedux.push('/');
         } catch (error) {
-            message.error('');
+            message.error('用户名错误');
         } finally {
             setLoading(false);
         }
@@ -137,9 +129,6 @@ const Login = () => {
                             </Form.Item>
                         </Col>
                     </Row>
-                    <Form.Item name='rememberMe' valuePropName='checked'>
-                        <Checkbox style={{ color: '#606266', fontSize: '14px' }}>记住密码</Checkbox>
-                    </Form.Item>
                     <Form.Item wrapperCol={{ span: 24 }}>
                         <Button
                             loading={loading}

@@ -1,20 +1,11 @@
-import React from 'react';
 import { history } from 'umi';
-
-// 当 app 首次渲染时
 export function render(oldRender) {
-    // fetch('/api/auth').then(auth => {
-    //     if (auth.isLogin) {
-    //         oldRender()
-    //     }
-    //     else {
-    //         history.push('/login');
-    //         oldRender()
-    //     }
-    // });
-    console.log('首次渲染');
+    // 在 真正的render之前，执行自定义的操作逻辑
+    console.log('先执行这里，然后执行 ReactDOM.render');
+    oldRender() 
 }
 
-export function onRouteChange(props) {
-    console.log(props);
-}
+export function onRouteChange({ location, routes, action }) {
+    //bacon(location.pathname);
+    // 路由切换时执行
+  }

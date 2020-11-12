@@ -1,7 +1,7 @@
 /**
- * 
+ * 类型定义
  */
-export type routes = {
+export type Routes = {
   path?: string;
   component?: string | (() => any);
   wrappers?: string[];

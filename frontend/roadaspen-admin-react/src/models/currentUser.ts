@@ -1,56 +1,50 @@
+/**
+ * 当前用户的信息
+ */
 import { Effect, Reducer } from 'umi';
 
-import { queryCurrent, query as queryUsers } from '@/services/currentUser';
+import { getCurrentUserInfo,getCurrentUserRoutes } from '@/services/currentUser';
 
-// 当前用户
+// 当前用户信息
 export interface CurrentUser {
   avatar?: string;
-  name?: string;
-  title?: string;
-  group?: string;
-  signature?: string;
+  username?: string; // 用户账号
+  nickname?: string; // 用户昵称
+  group?: string;  // 组
+  signature?: string; // 签名
   tags?: {
     key: string;
     label: string;
   }[];
-  userid?: string;
-  unreadCount?: number;
+  userid?: string; // 用户id
 }
 
-export interface UserModelState {
+export interface CurrentUserModelState {
   currentUser?: CurrentUser;
 }
 
-export interface UserModelType {
-  namespace: 'user';
-  state: UserModelState;
+export interface CurrentUserModelType {
+  namespace: 'currentUser';
+  state: CurrentUserModelState;
   effects: {
-    fetch: Effect;
     fetchCurrent: Effect;
   };
   reducers: {
-    saveCurrentUser: Reducer<UserModelState>;
-    changeNotifyCount: Reducer<UserModelState>;
+    saveCurrentUser: Reducer<CurrentUserModelState>;
+    changeNotifyCount: Reducer<CurrentUserModelState>;
   };
 }
 
-const UserModel: UserModelType = {
-  namespace: 'user',
+const CurrentUserModel: CurrentUserModelType = {
+  namespace: 'currentUser',
 
   state: {
     currentUser: {},
   },
 
   effects: {
-    *fetch(_, { call, put }) {
-      const response = yield call(queryUsers);
-      yield put({
-        type: 'save',
-        payload: response,
-      });
-    },
     *fetchCurrent(_, { call, put }) {
-      const response = yield call(queryCurrent);
+      const response = yield call(getCurrentUserInfo);
       yield put({
         type: 'saveCurrentUser',
         payload: response,
@@ -83,4 +77,4 @@ const UserModel: UserModelType = {
   },
 };
 
-export default UserModel;
+export default CurrentUserModel;

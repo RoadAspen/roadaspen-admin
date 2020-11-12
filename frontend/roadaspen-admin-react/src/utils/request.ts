@@ -1,15 +1,14 @@
 import { extend } from 'umi-request';
 import { routerRedux } from 'dva/router';
-import codeMsg from './codeMsg';
 import { getToken } from '@/utils/auth';
+import {TokenKey,ApiProfix,codeMsg} from './config'
 import { Modal, message } from 'antd';
 
 const request = extend({
-  prefix: '/api',
+  prefix: ApiProfix,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json;charset=utf-8',
-    Authorization: '',
   },
 });
 
@@ -21,7 +20,7 @@ request.interceptors.request.use((url, options) => {
       options: {
         ...options,
         isToken: true,
-        Authorization: 'Bearer ' + getToken(), // 让每个请求携带自定义token 请根据实际情况自行修改
+        Authorization: TokenKey + ' ' + getToken(), // 让每个请求携带自定义token 请根据实际情况自行修改
       },
     };
   } else {

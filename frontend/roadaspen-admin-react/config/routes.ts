@@ -1,8 +1,7 @@
-import { routes } from './type';
-const routes: routes = [
+import { Routes } from './type';
+const routes: Routes = [
   {
     path: '/login', // 登录
-    exact: true,
     title: '登录',
     component: '@/pages/login',
     wrappers: ['@/components/RouteComponentAuth'],

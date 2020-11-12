@@ -1,8 +1,8 @@
-import { GlobalModelState } from './global';
-import { UserModelState } from './user';
-import { StateType } from './login';
+// import { GlobalModelState } from './global';
+import { CurrentUserModelState } from './currentUser';
+// import { StateType } from './login';
 
-export { GlobalModelState, UserModelState };
+// export { GlobalModelState, UserModelState };
 
 export interface Loading {
   global: boolean;
@@ -17,13 +17,13 @@ export interface Loading {
 }
 
 export interface ConnectState {
-  global: GlobalModelState;
-  loading: Loading;
-  settings: ProSettings;
-  user: UserModelState;
-  login: StateType;
+//   global: GlobalModelState;
+//   loading: Loading;
+//   settings: ProSettings;
+  currentUser: CurrentUserModelState;
+//   login: StateType;
 }
 
-export interface Route extends MenuDataItem {
-  routes?: Route[];
-}
+// export interface Route extends MenuDataItem {
+//   routes?: Route[];
+// }

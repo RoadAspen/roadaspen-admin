@@ -1,20 +1,17 @@
-import Cookies from 'js-cookie';
+import { TokenKey } from './config';
 
-
-// app token key
-export const TokenKey = 'Admin-Token';
 
 // 获取token值
 export function getToken() {
-    return Cookies.get(TokenKey);
+    return localStorage.getItem(TokenKey);
 }
 
 // 设置token
 export function setToken(token: string) {
-    return Cookies.set(TokenKey, token);
+    return localStorage.setItem(TokenKey, token);
 }
 
 // 删除token
 export function removeToken() {
-    return Cookies.remove(TokenKey);
+    return localStorage.removeItem(TokenKey);
 }
