@@ -7,7 +7,6 @@ import { getCurrentUserInfo,getCurrentUserRoutes } from '@/services/currentUser'
 
 // 当前用户信息
 export interface CurrentUser {
-  avatar?: string;
   username?: string; // 用户账号
   nickname?: string; // 用户昵称
   group?: string;  // 组
