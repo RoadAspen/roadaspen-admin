@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu,Breadcrumb } from 'antd';
 import {
     MenuUnfoldOutlined,
     MenuFoldOutlined,
@@ -21,7 +21,7 @@ const Logo = (props: { collapsed: boolean }) => {
     )
 }
 const BasicLayout = (props: any) => {
-    console.log(props);
+    console.log('登陆成功');
     const [collapsed, setCollapsed] = useState<boolean>(false);
     function toggle() {
         setCollapsed((collapsed) => !collapsed);
@@ -48,6 +48,10 @@ const BasicLayout = (props: any) => {
                 </Header>
                 <Content className={styles.content}
                 >
+                    <Breadcrumb style={{ margin: '16px 0' }}>
+                        <Breadcrumb.Item>User</Breadcrumb.Item>
+                        <Breadcrumb.Item>Bill</Breadcrumb.Item>
+                    </Breadcrumb>
                     {props.children}
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>RoadAspen Admin ©2020 Created by Ant UMI</Footer>

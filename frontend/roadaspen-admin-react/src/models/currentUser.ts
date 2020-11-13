@@ -20,6 +20,7 @@ export interface CurrentUser {
 
 export interface CurrentUserModelState {
   currentUser?: CurrentUser;
+  fetchUserInfo?:boolean; // 是否获取用户信息
 }
 
 export interface CurrentUserModelType {
@@ -39,11 +40,13 @@ const CurrentUserModel: CurrentUserModelType = {
 
   state: {
     currentUser: {},
+    fetchUserInfo:false
   },
 
   effects: {
     *fetchCurrent(_, { call, put }) {
       const response = yield call(getCurrentUserInfo);
+      // 请求用户信息成功，存储用户信息，并将fetchUserInfo标识为true
       yield put({
         type: 'saveCurrentUser',
         payload: response,
@@ -56,6 +59,7 @@ const CurrentUserModel: CurrentUserModelType = {
       return {
         ...state,
         currentUser: action.payload || {},
+        fetchUserInfo:true
       };
     },
     changeNotifyCount(

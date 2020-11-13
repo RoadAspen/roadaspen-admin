@@ -11,8 +11,9 @@ import { ConnectState } from '@/models/connect';
 import { CurrentUser } from '@/models/currentUser';
 
 interface SecurityLayoutProps extends ConnectProps {
-  loading?: boolean;
+  token?: string;
   currentUser?: CurrentUser;
+  fetchUserInfo?:boolean;
 }
 
 interface SecurityLayoutState {
@@ -21,7 +22,7 @@ interface SecurityLayoutState {
 
 class SecurityLayout extends React.Component<SecurityLayoutProps, SecurityLayoutState> {
   state: SecurityLayoutState = {
-    isReady: false,
+    isReady: false
   };
 
   componentDidMount() {
@@ -31,32 +32,41 @@ class SecurityLayout extends React.Component<SecurityLayoutProps, SecurityLayout
     const { dispatch } = this.props;
     if (dispatch) {
       dispatch({
-        type: 'user/fetchCurrent',
+        type: 'currentUser/fetchCurrent',
       });
     }
   }
 
   render() {
-    const { isReady } = this.state;
-    const { children,  currentUser } = this.props;
-    // You can replace it to your authentication rule (such as check token exists)
-    // 你可以把它替换成你自己的登录认证规则（比如判断 token 是否存在）
-    const isLogin = false;
-    //  currentUser && currentUser.userid;
+    const { isReady} = this.state;
+    const { children, token,fetchUserInfo } = this.props;
+
+    // 获取页面的当前路径
     const queryString = stringify({
-      redirect: window.location.href,
+      redirect: window.location.pathname,
     });
 
-    if ((!isLogin ) || !isReady) {
+    // 判断组件是否加载完成
+    if (!isReady ) {
       return <PageLoading />;
     }
-    if (!isLogin && window.location.pathname !== '/login') {
+
+     // 判断是否存在token,或者 fetchUserInfo 为false，如果不存在且当前路径不是登录页，则跳转至登录页
+    if ((!token) && window.location.pathname !== '/login') {
       return <Redirect to={`/login?${queryString}`} />;
     }
+
+    // 如果正在请求用户数据
+    if(!fetchUserInfo){
+      return <PageLoading />;
+    }
+
     return children;
   }
 }
 
-export default connect(({ currentUser}: ConnectState) => ({
-  currentUser: currentUser.currentUser
+export default connect(({ currentUser, global }: ConnectState) => ({
+  currentUser: currentUser.currentUser,
+  fetchUserInfo:currentUser.fetchUserInfo,
+  token: global.token
 }))(SecurityLayout);

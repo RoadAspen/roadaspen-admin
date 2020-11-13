@@ -16,12 +16,6 @@ const Login = () => {
         uuid: '',
         href: '',
     });
-    const getCookie = () => {
-        // 当组件挂载时，获取cookie 中存储的 账号密码和remember
-        const username = Cookies.get('username');
-        const password = Cookies.get('password');
-        const rememberMe = Cookies.get('rememberMe');
-    };
 
     const get_captchaImage = async () => {
         // 获取验证码
@@ -50,10 +44,10 @@ const Login = () => {
             // 登录
             const data = await login(payload);
 
-            Cookies.set(TokenKey, 'Bearea ' + (data as any).token);
+            Cookies.set(TokenKey, (data as any).token);
             setLoading(false);
             // 成功之后 跳转到 根路径， 根路径通过判断token来决定跳转至login还是index
-            routerRedux.push('/');
+            routerRedux.replace('/');
         } catch (error) {
             message.error('用户名错误');
         } finally {
@@ -63,7 +57,7 @@ const Login = () => {
     return (
         <div className={loginStyle.login_bg}>
             <div className={loginStyle.login_form_box}>
-                <h1 className={loginStyle.login_title}>后台管理系统</h1>
+                <h1 className={loginStyle.login_title}>路杨后台管理系统</h1>
                 <Form name='login_form' form={form} layout='horizontal' onFinish={onFinish}>
                     <Form.Item
                         name='username'
