@@ -1,8 +1,9 @@
 // 登录
-import { ICtx } from "../interfaces/role.interface";
+import { ICtx } from "../interfaces/index.interface";
 import svgCaptcha from 'svg-captcha';
 import md5 from 'md5';
 import jwt from 'jsonwebtoken';
+import { create_token } from "../utils";
 
 
 svgCaptcha.options.width = 200;
@@ -31,13 +32,7 @@ function createCode() {
 const login = async function(ctx: ICtx) {
     const body = ctx.request.body;
     // 如果账号密码正确，则返回 token 和 用户信息
-    const token = jwt.sign({username:body.username},'ssssss',{algorithm:'HS256'});
-    // ctx.body = { 
-    //     code: 200,
-    //     statusText: '登录成功',
-    //     data: {
-    //         token:token
-    //     }}
+    const token = create_token({username:body.username});
     ctx.status = 200
     ctx.body = {code:'200'}
 };

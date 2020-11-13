@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { mongo_db_conf } from "./config";
+import { mongo_db_conf } from "../config";
 
 mongoose.connect(mongo_db_conf.db_url, {
 	useNewUrlParser: true, // 使用新版的url解析

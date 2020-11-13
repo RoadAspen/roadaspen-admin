@@ -11,7 +11,7 @@ export interface IRoleModel extends IRole, Document {}
 const RoleSchema:Schema  = new Schema({
     roleName:String,// 角色名
     roleCode:{type:String,unique:true},// 角色编码 默认唯一
-    createBy:{type:String,default:null}, // 创建者
+    createBy:{type:String,default:null}, // 角色创建者
     description:String, // 角色描述
     order:Number, // 显示顺序, 排序
     status:{type:Number,default:0}, // 状态   0 正常 || 1 停用

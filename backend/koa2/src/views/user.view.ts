@@ -1,5 +1,5 @@
 import { User, IUserModel } from "../models/user.model";
-import { ICtx } from "../interfaces/role.interface";
+import { ICtx } from "../interfaces/index.interface";
 
 // 获取user列表
 const getUser = async function (ctx:ICtx) {
