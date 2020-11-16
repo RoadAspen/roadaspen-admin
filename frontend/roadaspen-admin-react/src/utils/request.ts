@@ -15,7 +15,8 @@ const request = extend({
 //在发起请求之前,拦截请求
 request.interceptors.request.use((url, options) => {
   // token存在 且 isToken 为 true
-  if (getToken()) {
+  console.log(options,url)
+  if (getToken() ) {
     return {
       options: {
         ...options,
