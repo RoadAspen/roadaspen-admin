@@ -1,5 +1,5 @@
-import { User, IUserModel } from "../models/user.model";
-import { ICtx } from "../interfaces/index.interface";
+import { User, IUserModel } from "../models/user";
+import { ICtx } from "../interfaces";
 
 // 获取user列表
 const getUser = async function (ctx:ICtx) {
@@ -10,7 +10,7 @@ const getUser = async function (ctx:ICtx) {
 };
 
 // 新增用户
-const registerUser = async function (ctx:ICtx) {
+const addUser = async function (ctx:ICtx) {
 	const body = ctx.request.body;
 	const userEntity: IUserModel = new User(); // 需要传入一个空对象作为默认值，或者直接传入对象作为新的Document
 	await userEntity.save();
@@ -22,5 +22,5 @@ const registerUser = async function (ctx:ICtx) {
 
 export default {
 	"get /user/list": getUser,
-	"post /register/": registerUser,
+	"post /user/add/": addUser,
 };

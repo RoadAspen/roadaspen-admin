@@ -2,15 +2,6 @@
  *  config 应用全部的配置
  */
 
-// mysql
-export const mysql_db_conf = {
-    host:'49.234.6.195',
-    port:3306,
-    user:'root',
-    password:'nzy123456',
-    database:'roadaspen_admin'
-}
-
 // mongo
 export const mongo_db_conf = {
     get db_url(){
@@ -27,7 +18,7 @@ export const redis_db_conf = {
     get port(){
         return 6379
     },
-    get auth(){
+    get pwd(){
         return 'roadaspen'
     }
 }

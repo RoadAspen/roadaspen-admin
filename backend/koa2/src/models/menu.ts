@@ -4,7 +4,7 @@
 
 import { Model, model, Document, Schema } from "mongoose";
 
-import { IMenu } from "../interfaces/menu.interface";
+import { IMenu } from "../interfaces/system";
 
 export interface IMenuModel extends IMenu, Document {}
 

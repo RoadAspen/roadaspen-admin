@@ -1,6 +1,5 @@
-import { Role, IRoleModel } from "../models/role.model";
-import { ICtx } from "../interfaces/index.interface";
-
+import { Role, IRoleModel } from "../models/role";
+import { ICtx } from "../interfaces";
 
 const getRole = async function(ctx: ICtx) {
 	const Role_list = await Role.find({});
@@ -24,11 +23,11 @@ const addRole = async function(ctx: ICtx) {
 const updateRole = async function(ctx: ICtx) {
 	const body = ctx.request.body;
 	const id = ctx.params.id;
-	const Role_set: IRoleModel = Role.find({id:id}); // 返回
-	const role =await Role_set.save();
+	// const Role_set: IRoleModel = Role.find({id:id}); // 返回
+	// const role =await Role_set.save();
 	// 通过status手动设置状态码
 	ctx.status = 203;
-	ctx.body = { data: role };
+	ctx.body = { data: 1 };
 };
 
 export default {

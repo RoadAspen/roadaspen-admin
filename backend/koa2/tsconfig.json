@@ -61,7 +61,12 @@
     // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
 
     /* Advanced Options */
-    "forceConsistentCasingInFileNames": true  /* Disallow inconsistently-cased references to the same file. */
+    "forceConsistentCasingInFileNames": true,  /* Disallow inconsistently-cased references to the same file. */
+    "paths": { // ts import 路径映射，相对于 baseUrl
+      "@/*": [
+          "src/*" // @/path 导入为 绝对路径导入，受 baseUrl的影响
+      ]
   },
-  "include": ["./src/**/*", "config.ts"]
+  },
+  "include": ["./src/**/*", "config.ts", "global.d.ts", "global.d.ts"]
 }

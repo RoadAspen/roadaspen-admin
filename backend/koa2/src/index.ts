@@ -1,20 +1,12 @@
 import Koa from 'koa';
+import path from 'path';
 import bodyparser from 'koa-bodyparser';
 import statics from 'koa-static';
 import Router from 'koa-router';
-import db from './db/mongo';
-import {redis_db_conf} from './config';
-import path from 'path';
 import { loadModules } from './loadModules';
-import redisStore from 'koa-redis';
-import redis from 'redis';
+import mongo from './mongo';
 
 const app = new Koa();
-app.keys = [];
-
-const client = redis.createClient(redis_db_conf.port,redis_db_conf.host)
-const options = {client: client, db: 1};
-const store = redisStore(options);
 
 // body解析
 app.use(bodyparser());
@@ -51,13 +43,10 @@ async function bootstrap(router: Router<any, {}>) {
     }
     // 启动 router
     app.use(router.routes()).use(router.allowedMethods());
-    // app.listen(8081);
-    db.on('connected', function() {
-        console.log('Mongoose 连接到 example数据库');
-    }) 
-    db.once('open', function() {
+   
+    mongo.once('open', function() {
         app.listen(8081);
-        console.log('服务器连接成功 at 8081');
+        console.log('服务器启动成功 at 8081');
     });
 }
 

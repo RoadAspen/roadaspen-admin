@@ -4,7 +4,7 @@
 
 import { Model, model, Document, Schema } from "mongoose";
 
-import { IUser } from "../interfaces/user.interface";
+import { IUser } from "../interfaces/system";
 
 export interface IUserModel extends IUser, Document {}
 

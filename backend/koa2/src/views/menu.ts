@@ -1,5 +1,5 @@
-import { Menu, IMenuModel } from "../models/menu.model";
-import { ICtx } from "../interfaces/index.interface";
+import { Menu, IMenuModel } from "../models/menu";
+import { ICtx } from "../interfaces";
 
 // get list
 const getMenulist = async function (ctx:ICtx) {
