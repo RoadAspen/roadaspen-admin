@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import { app_secret_key } from "../config";
 
 // 生成token 默认使用 {algorithm:'HS256'} 加密
-export function create_token(payload: { username: string }) {
+export function create_token(payload: { username: string,expire_time:number }) {
   const expiresIn = Date.now() + 3600000 * 24; // 过期时间 24小时后
   return jwt.sign(payload, app_secret_key, { expiresIn: expiresIn });
 }

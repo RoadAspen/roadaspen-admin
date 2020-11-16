@@ -29,9 +29,14 @@ function createCode() {
 
 // 登录
 const login = async function (ctx: ICtx) {
-  const body = ctx.request.body;
+  const { username, password, uuid } = ctx.request.body;
+  console.log(ctx.request)
+  const expire_time = new Date().getTime() + 10000;
   // 如果账号密码正确，则返回 token 和 用户信息
-  const token = create_token({ username: body.username });
+  const token = create_token({
+    username: username,
+    expire_time: expire_time,
+  });
   ctx.status = 200;
   ctx.body = { code: "200" };
 };
@@ -40,9 +45,9 @@ const login = async function (ctx: ICtx) {
 const captchaImage = async function (ctx: ICtx) {
   // 生成验证码
   const { text, data } = createCode();
-  const time_ms = new Date().getTime();
-  const uuid = md5(`${time_ms}`);
-  redis.set(uuid, text);
+  const uuid = md5(`${new Date().getTime()}`);
+  // 设置过期时间
+  redis.set(uuid, text, "ex", 10);
   ctx.body = {
     code: 200,
     statusText: "OK",
