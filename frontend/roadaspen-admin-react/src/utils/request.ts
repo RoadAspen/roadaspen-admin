@@ -14,24 +14,25 @@ const request = extend({
 
 //在发起请求之前,拦截请求
 request.interceptors.request.use((url, options) => {
-  // token存在 且 isToken 为 true
-  console.log(options,url)
-  if (getToken() ) {
-    return {
-      options: {
-        ...options,
-        isToken: true,
-        Authorization: TokenKey + ' ' + getToken(), // 让每个请求携带自定义token 请根据实际情况自行修改
-      },
-    };
-  } else {
-    routerRedux.push('/login');
-  }
+  // // token存在 且 isToken 为 true
+  // if (getToken() && !url.includes('captchaImage') && !url.includes('login')) {
+  //   return {
+  //     options: {
+  //       ...options,
+  //       Authorization: TokenKey + ' ' + getToken(), // 让每个请求携带自定义token 请根据实际情况自行修改
+  //     },
+  //   };
+  // } else if(!url.includes('captchaImage') && !url.includes('login')){
+  //   return { options };
+  // }else{
+  //   routerRedux.push('/login');
+  // }
   return { options };
 });
 
 //在请求返回之后，根据返回码做相应的操作，制定一个返回码对照表
 request.interceptors.response.use(async response => {
+  console.log('res',response)
   const res = await response.clone().json();
   // 未设置状态码则默认成功状态，所有后端正常返回都为 200，相信返回码在返回的信息中展示
   const code: number = res.code || 200;

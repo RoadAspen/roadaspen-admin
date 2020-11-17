@@ -19,7 +19,7 @@ const router = new Router();
 
 app.use(async (ctx,next)=>{
     if(ctx.path === '/favicon.ico') return 
-    next()
+    await next();
 })
 async function bootstrap(router: Router<any, {}>) {
     const router_list = await loadModules(path.resolve(__dirname,'views'));

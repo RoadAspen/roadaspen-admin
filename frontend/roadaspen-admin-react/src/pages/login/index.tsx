@@ -49,7 +49,7 @@ const Login = () => {
             // 成功之后 跳转到 根路径， 根路径通过判断token来决定跳转至login还是index
             routerRedux.replace('/');
         } catch (error) {
-            message.error('用户名错误');
+            // message.error('用户名错误');
         } finally {
             setLoading(false);
         }
