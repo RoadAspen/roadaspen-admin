@@ -1,11 +1,11 @@
 /**
  * 全局状态
  */
+import { removeToken, setToken } from '@/utils/auth';
 import { Effect, Reducer } from 'umi';
-
 // 当前全局状态
 export interface GlobalModelState {
-  token: string; // token
+  token?: string | null; // token
 }
 
 // 当前全局状态
@@ -26,15 +26,15 @@ const CurrentUserModel: GlobalModelType = {
   namespace: 'global',
 
   state: {
-    token: localStorage.getItem('token') || '',
+    token: null,
   },
   reducers: {
     changeToken(state, action) {
         // 如果
-        if(action.payload.token){
-            localStorage.removeItem('token');
+        if(!action.payload.token){
+            removeToken();
         }else{
-            localStorage.setItem('token', action.payload.token);
+            setToken( action.payload.token);
         }
       return {
         ...state,

@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
-import { Button, Form, Input, Row, Col, Checkbox, message } from 'antd';
+import { Button, Form, Input, Row, Col} from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { routerRedux } from 'dva/router';
 import { login, captchaImage } from '@/services/login';
 import * as loginStyle from './login.less';
 import { TokenKey } from '@/utils/config';
-const Login = () => {
+import { connect } from 'umi';
+const Login = (props:any) => {
+    const {dispatch,history} = props;
     const [form] = Form.useForm();
 
     // 按钮loading
@@ -21,7 +23,7 @@ const Login = () => {
         // 获取验证码
         try {
             const {data} = await captchaImage();
-            const href = btoa(unescape(encodeURIComponent(data.data)));
+            const href = btoa(unescape(encodeURIComponent(data.img)));
             setCaptchaImage(() => ({
                 href: `data:image/svg+xml;base64,${href}`,
                 uuid: data.uuid,
@@ -42,14 +44,24 @@ const Login = () => {
                 uuid: captcha_image.uuid,
             };
             // 登录
-            const data = await login(payload);
+            const {code,token} = await login(payload);
+            if(code !== 200){
+                get_captchaImage()
+            }else{
+                Cookies.set(TokenKey, token);
+                dispatch({
+                    type:'global/changeToken',
+                    payload:{
+                        token
+                    }
+                })
+                setLoading(false);
+                // 成功之后 跳转到 根路径， 根路径通过判断token来决定跳转至login还是index
+                history.push('/');
+            }
 
-            Cookies.set(TokenKey, (data as any).token);
-            setLoading(false);
-            // 成功之后 跳转到 根路径， 根路径通过判断token来决定跳转至login还是index
-            routerRedux.replace('/');
         } catch (error) {
-            // message.error('用户名错误');
+            // message.error(error.message);
         } finally {
             setLoading(false);
         }
@@ -143,4 +155,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default connect()(Login);

@@ -4,6 +4,7 @@ import svgCaptcha from "svg-captcha";
 import md5 from "md5";
 import redis from "../redis";
 import { create_token } from "../utils";
+import { User } from "../models/user";
 
 svgCaptcha.options.width = 200;
 svgCaptcha.options.height = 200;
@@ -29,17 +30,56 @@ function createCode() {
 
 // 登录
 const login = async function (ctx: ICtx) {
-  const { username, password, uuid } = ctx.request.body;
-  const expire_time = new Date().getTime() + 10000;
-  const codes = await redis.get(uuid);
-  console.log(codes)
-  // 如果账号密码正确，则返回 token 和 用户信息
-  const token = create_token({
-    username: username,
-    expire_time: expire_time,
-  });
+  // 获取前端传值
+  const { username, password, uuid, code } = ctx.request.body;
   ctx.status = 200;
-  ctx.body = { code: 200,token };
+  let codes;
+  if (uuid) {
+    codes = await redis.get(uuid);
+    if (codes === null) {
+      ctx.body = {
+        code: 404,
+        msg: "验证码已过期",
+      };
+      return;
+    }
+  } else {
+    ctx.body = {
+      code: 404,
+      msg: "请输入uuid",
+    };
+    return;
+  }
+
+  if (codes === code) {
+    // 验证码正确
+    const psmd5 = md5(password);
+
+    const user = await User.findOne({userName:username,password:psmd5});
+    // 如果账号密码正确，则返回 token,
+    if (user) {
+      const expire_time = new Date().getTime() + 10000;
+      const token = create_token({
+        username: username,
+        expire_time: expire_time,
+      });
+      ctx.body = {
+        code: 200,
+        msg: "登录成功",
+        data: {
+          token,
+        },
+      };
+    } else {
+      ctx.body = {
+        code: 404,
+        msg: "账户或密码错误",
+      };
+    }
+  } else {
+    // 验证码错误
+    ctx.body = { code: 404, msg: "验证码错误" };
+  }
 };
 
 // 获取验证码
@@ -47,21 +87,19 @@ const captchaImage = async function (ctx: ICtx) {
   // 生成验证码
   const { text, data } = createCode();
   const uuid = md5(`${new Date().getTime()}`);
-  // 设置过期时间,10s， 单位是 秒
-  await redis.set(uuid, text, "ex", 10);
-  const codes = await redis.get(uuid);
-  console.log(codes)
+  // 设置过期时间,1000s， 单位是 秒
+  await redis.set(uuid, text, "ex", 1000);
   ctx.body = {
     code: 200,
-    statusText: "OK",
+    msg: "操作成功",
     data: {
-      data: data,
+      img: data,
       uuid: uuid,
     },
   };
 };
 // heihei
 export default {
-  "post /login": login,
-  "get /captchaImage": captchaImage,
+  "post /login/": login,
+  "get /captchaImage/": captchaImage,
 };

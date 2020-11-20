@@ -11,7 +11,7 @@ import { ConnectState } from '@/models/connect';
 import { CurrentUser } from '@/models/currentUser';
 
 interface SecurityLayoutProps extends ConnectProps {
-  token?: string;
+  token?: string | null;
   currentUser?: CurrentUser;
   fetchUserInfo?:boolean;
 }
@@ -40,7 +40,7 @@ class SecurityLayout extends React.Component<SecurityLayoutProps, SecurityLayout
   render() {
     const { isReady} = this.state;
     const { children, token,fetchUserInfo } = this.props;
-
+    console.log('安全组件',this.props);
     // 获取页面的当前路径
     const queryString = stringify({
       redirect: window.location.pathname,

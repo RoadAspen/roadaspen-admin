@@ -5,6 +5,7 @@
 export interface IUser {
   admin: boolean; // 是否是admin用户
   userName: string; // 用户名
+  password:string; // 密码
   userId: string; // 用户id 默认唯一
   createBy: string; // 创建者
   createTime: string; // 创建时间
@@ -61,7 +62,7 @@ export interface IMenu {
   orderNum: number; // 显示排序
   parentId: number | null; // 父id
   parentName: string | null; // 父菜单名称
-  path: "";
+  path: string; // 路由
   perms: string; // 权限编码
   remark: string | null; // 备注
   status: 0 | 1; // 状态 0 停用 1 正常

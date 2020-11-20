@@ -15,4 +15,4 @@ const MenuSchema:Schema  = new Schema({
     room:String, // 班级
 });
 
-export const Menu:Model<IMenuModel> = model<IMenuModel>("Menu",MenuSchema);
+export const Menu:Model<IMenuModel> = model<IMenuModel>("menu",MenuSchema,"menu");
