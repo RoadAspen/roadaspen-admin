@@ -1,10 +1,29 @@
 import { extend } from 'umi-request';
 import { routerRedux } from 'dva/router';
 import { getToken } from '@/utils/auth';
-import {TokenKey,ApiProfix,codeMsg} from './config'
-import { Modal, message } from 'antd';
+import { TokenKey, ApiProfix, codeMsg } from './config';
+import { Modal, message, notification } from 'antd';
+import { stringify } from 'querystring';
+/**
+ * 异常处理程序
+ */
+const errorHandler = (error: { response: any }) => {
+  const { response } = error;
+
+  if (response && response.status) {
+    const errorText = codeMsg[response.status] || response.statusText;
+    const { status, url } = response;
+    notification.error({
+      message: `请求错误 ${status}: ${url}`,
+      description: errorText,
+    });
+  }
+
+  return response;
+};
 
 const request = extend({
+  errorHandler,
   prefix: ApiProfix,
   timeout: 10000,
   headers: {
@@ -13,22 +32,31 @@ const request = extend({
 });
 
 //在发起请求之前,拦截请求
-request.interceptors.request.use((url, options) => {
-  // // token存在 且 isToken 为 true
-  // if (getToken() && !url.includes('captchaImage') && !url.includes('login')) {
-  //   return {
-  //     options: {
-  //       ...options,
-  //       Authorization: TokenKey + ' ' + getToken(), // 让每个请求携带自定义token 请根据实际情况自行修改
-  //     },
-  //   };
-  // } else if(!url.includes('captchaImage') && !url.includes('login')){
-  //   return { options };
-  // }else{
-  //   routerRedux.push('/login');
-  // }
-  return { options };
-});
+request.interceptors.request.use(
+  (url, options) => {
+    // token存在 且 isToken 为 true
+    if (getToken() && !url.includes('captchaImage') && !url.includes('login')) {
+      const headers = {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: TokenKey + ' ' + getToken(),
+      }; // 让每个请求携带自定义token 请根据实际情况自行修改
+      return {
+        url,
+        options: {
+          ...options,
+          headers,
+        },
+      };
+    } else if (!url.includes('captchaImage') && !url.includes('login')) {
+      return { url, options };
+    } else {
+      routerRedux.push('/login');
+    }
+    return { url, options };
+  },
+  { global: true },
+);
 
 //在请求返回之后，根据返回码做相应的操作，制定一个返回码对照表
 request.interceptors.response.use(async response => {
@@ -47,10 +75,11 @@ request.interceptors.response.use(async response => {
       okType: 'primary',
       onOk() {
         // 直接跳转至 登录页面且刷新页面，避免出现多次请求验证弹窗
-        location.href = '/login';
+        location.href =
+          '/login?' + stringify({ redirect: window.location.pathname });
       },
     });
-  } else if(code > 401 && code < 500 ){
+  } else if (code > 401 && code < 500) {
     message.error(msg);
     // return Promise.reject(new Error(msg));
   }

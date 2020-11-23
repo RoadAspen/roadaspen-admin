@@ -44,15 +44,15 @@ const Login = (props:any) => {
                 uuid: captcha_image.uuid,
             };
             // 登录
-            const {code,token} = await login(payload);
+            const {code,data} = await login(payload);
             if(code !== 200){
                 get_captchaImage()
             }else{
-                Cookies.set(TokenKey, token);
+                Cookies.set(TokenKey, data.token);
                 dispatch({
                     type:'global/changeToken',
                     payload:{
-                        token
+                        token:data.token
                     }
                 })
                 setLoading(false);

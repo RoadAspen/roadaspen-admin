@@ -8,7 +8,7 @@ const routes = [
     { path: '/list', breadcrumb: 'List Page' },
 ];
 
-const Breadcrumbs = ({ breadcrumbs }) => (
+export default withBreadcrumbs(routes)(({ breadcrumbs }) => (
     <div>
         {breadcrumbs.map((breadcrumb, index) => (
             <span key={breadcrumb.key}>
@@ -19,6 +19,4 @@ const Breadcrumbs = ({ breadcrumbs }) => (
             </span>
         ))}
     </div>
-)
-
-export default withBreadcrumbs(routes)(Breadcrumbs);
+))

@@ -7,8 +7,3 @@ import request from '@/utils/request';
 export function getCurrentUserInfo() {
     return request.get('/currentUser/getInfo/');
 }
-
-// 获取当前用户菜单
-export function getCurrentUserRoutes() {
-    return request.get('/currentUser/getRoutes/');
-}

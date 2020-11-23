@@ -1,5 +1,5 @@
 // app token key
-export const TokenKey = 'Admin-Token';
+export const TokenKey = 'jwt-token';
 
 export const ApiProfix = '/api';
 

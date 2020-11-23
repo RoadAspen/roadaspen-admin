@@ -58,10 +58,8 @@ const login = async function (ctx: ICtx) {
     const user = await User.findOne({userName:username,password:psmd5});
     // 如果账号密码正确，则返回 token,
     if (user) {
-      const expire_time = new Date().getTime() + 10000;
       const token = create_token({
-        username: username,
-        expire_time: expire_time,
+        username: username
       });
       ctx.body = {
         code: 200,

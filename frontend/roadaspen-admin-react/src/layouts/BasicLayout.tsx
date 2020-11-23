@@ -9,6 +9,7 @@ import {
 } from '@ant-design/icons';
 const { Header, Sider, Content, Footer } = Layout;
 import styles from './BasicLayout.less';
+import { connect } from 'umi';
 
 // 后台管理系统 页面左右布局。采用flex， aside 宽度固定，右侧 content 宽度自适应
 // content 页面上下布局， 采用 flex ，header，footer 高度固定。page 高度自适应
@@ -21,7 +22,7 @@ const Logo = (props: { collapsed: boolean }) => {
     )
 }
 const BasicLayout = (props: any) => {
-    console.log('登陆成功');
+    console.log(props.routes);
     const [collapsed, setCollapsed] = useState<boolean>(false);
     function toggle() {
         setCollapsed((collapsed) => !collapsed);
@@ -60,4 +61,4 @@ const BasicLayout = (props: any) => {
     );
 };
 
-export default BasicLayout;
+export default connect()(BasicLayout);
