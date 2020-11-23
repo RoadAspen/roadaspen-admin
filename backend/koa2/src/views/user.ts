@@ -35,7 +35,7 @@ const getCurrentUserInfo = async function (ctx: ICtx) {
   };
 };
 export default {
-  "get /user/list": getUser,
-  "get /currentUser/getInfo": getCurrentUserInfo,
+  "get /user/current/info/": getCurrentUserInfo,
+  "get /user/list/": getUser,
   "post /user/add/": addUser,
 };

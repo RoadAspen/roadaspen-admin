@@ -41,7 +41,7 @@ const SecurityLayout = (props:SecurityLayoutProps) => {
     return <PageLoading />;
   }
 
-  // 判断是否存在token,或者 fetchUserInfo 为false，如果不存在且当前路径不是登录页，则跳转至登录页
+  // 判断是否存在token,如果不存在且当前路径不是登录页，则跳转至登录页
   if ((!token) && window.location.pathname !== '/login') {
     return <Redirect to={`/login?${redirect_path}`} />;
   }
