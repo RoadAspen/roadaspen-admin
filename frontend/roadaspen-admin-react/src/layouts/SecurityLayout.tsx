@@ -23,10 +23,7 @@ const SecurityLayout = (props:SecurityLayoutProps) => {
     const { dispatch } = props;
     if (dispatch) {
       dispatch({
-        type: 'currentUser/fetchCurrent',
-      });
-      dispatch({
-        type: 'currentUser/fetchMenu',
+        type: 'currentUser/fetchCurrentUserInfo',
       });
     }
   }, [])

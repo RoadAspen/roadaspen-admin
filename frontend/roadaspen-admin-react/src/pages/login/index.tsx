@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { Button, Form, Input, Row, Col} from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { routerRedux } from 'dva/router';
 import { login, captchaImage } from '@/services/login';
 import * as loginStyle from './login.less';
 import { TokenKey } from '@/utils/config';
-import { connect } from 'umi';
+import { connect,history} from 'umi';
 const Login = (props:any) => {
     const {dispatch,history} = props;
     const [form] = Form.useForm();
@@ -50,7 +49,7 @@ const Login = (props:any) => {
             }else{
                 Cookies.set(TokenKey, data.token);
                 dispatch({
-                    type:'global/changeToken',
+                    type:'currentUser/changeToken',
                     payload:{
                         token:data.token
                     }
