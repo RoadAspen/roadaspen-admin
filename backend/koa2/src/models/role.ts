@@ -10,31 +10,30 @@ export interface IRole {
   roleOrder: number; // 角色排序
   admin: boolean; // 是否为 admin 角色
   createBy: string | null; // 创建者
-  createTime: string | null; // 创建时间
   status: number; // 状态 1 正常 0 停用
   menus: string[]; // 菜单id数组
   depts: string[]; // 部门 id 数组
   remark: string | null; // 角色备注
   updateBy: string | null; // 更新者
-  updateTime: string | null; //更新时间
 }
 export interface IRoleModel extends IRole, Document {}
 
-const RoleSchema: Schema = new Schema({
-  roleCode: { type: String, unique: true,required:true }, // 角色编码 默认唯一
-  roleName: {type:String}, // 角色名
-  roleOrder: {type:Number}, // 角色显示顺序, 排序
-  admin:{type:Boolean}, // 是否是admin
-  createBy: { type: Schema.Types.ObjectId, ref:'User' }, // 角色创建者
-  createTime: { type: Date, default:Date.now }, // 创建时间
-  status: { type: Number, default: 1 }, // 状态   1 正常 || 0 停用
-  menus: [{ type: Schema.Types.ObjectId, ref:'Menu' }], // 角色菜单权限
-  depts:[{type:Schema.Types.ObjectId,ref:'Dept'}], // 部门id
-  updateBy: { type:Schema.Types.ObjectId, ref:'User' }, // 更新者
-  updateTime: { type: Date, default: Date.now }, // 更新时间
-  description: String, // 角色描述
-  remark: { type: String }, // 备注
-});
+const RoleSchema: Schema = new Schema(
+  {
+    roleCode: { type: String, unique: true, required: true }, // 角色编码 默认唯一
+    roleName: { type: String }, // 角色名
+    roleOrder: { type: Number }, // 角色显示顺序, 排序
+    admin: { type: Boolean }, // 是否是admin
+    createBy: { type: Schema.Types.ObjectId, ref: "User" }, // 角色创建者
+    status: { type: Number, default: 1 }, // 状态   1 正常 || 0 停用
+    menus: [{ type: Schema.Types.ObjectId, ref: "Menu" }], // 角色菜单权限
+    depts: [{ type: Schema.Types.ObjectId, ref: "Dept" }], // 部门id
+    updateBy: { type: Schema.Types.ObjectId, ref: "User" }, // 更新者
+    description: String, // 角色描述
+    remark: { type: String }, // 备注
+  },
+  { timestamps: true }
+);
 
 export const Role: Model<IRoleModel> = model<IRoleModel>(
   "role",

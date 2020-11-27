@@ -19,6 +19,15 @@ const router = new Router();
 
 app.use(async (ctx,next)=>{
     if(ctx.path === '/favicon.ico') return 
+    console.log(ctx.path)
+    if(ctx.path === '/name'){
+        ctx.body = {
+            code:403,
+            data:'',
+            msg:"无权限"
+        }
+        return 
+    }
     await next();
 })
 async function bootstrap(router: Router<any, {}>) {

@@ -38,5 +38,5 @@ const updateMenu = async function (ctx:ICtx) {
 export default {
 	"get /menu/list": getMenulist,
 	"post /menu/add": addMenu,
-	"post /menu/:id/": updateMenu,
+	"post /menu/:id/update": updateMenu,
 };

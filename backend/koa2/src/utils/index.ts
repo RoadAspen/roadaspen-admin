@@ -2,7 +2,6 @@
  *
  */
 import jwt from "jsonwebtoken";
-import { DocumentQuery } from "mongoose";
 import { app_secret_key } from "../config";
 import { IUserModel, User } from "../models/user";
 

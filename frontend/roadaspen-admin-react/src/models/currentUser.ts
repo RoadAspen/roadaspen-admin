@@ -25,14 +25,10 @@ export interface CurrentUser {
   userName?: string; // 用户账号
   nickName?: string; // 用户昵称
   group?: string; // 组
-  signature?: string; // 签名
-  tags?: {
-    key: string;
-    label: string;
-  }[];
   userid?: string; // 用户id
   roles?:string[]; // 用户角色
   permissions?:string[]; // 用户权限
+  menu_list?:Menu[]; // 用户菜单
 }
 
 export interface CurrentUserModelState {

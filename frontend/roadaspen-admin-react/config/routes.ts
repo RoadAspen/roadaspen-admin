@@ -4,7 +4,6 @@ const routes: Routes = [
   {
     path: '/login', // 登录
     exact: true,
-    title: '登录',
     component: '@/pages/login',
   },
   {
@@ -24,7 +23,7 @@ const routes: Routes = [
             path: '/index', // 首页
             exact: true,
             component: '@/pages/index',
-            // wrappers: ['@/components/RouteComponentAuth'], // 判断是否存在页面权限
+            wrappers: ['@/components/RouteComponentAuth'], // 判断是否存在页面权限
           },
           {
             path: '/system', // 系统管理
@@ -38,6 +37,25 @@ const routes: Routes = [
                 path: '/system/user', // 用户管理
                 exact: true,
                 component: '@/pages/system/user',
+                wrappers: ['@/components/RouteComponentAuth'], // 判断是否存在页面权限
+              },
+              {
+                path: '/system/role', // 角色管理
+                exact: true,
+                component: '@/pages/system/role',
+                wrappers: ['@/components/RouteComponentAuth'], // 判断是否存在页面权限
+              },
+              {
+                path: '/system/menu', // 菜单管理
+                exact: true,
+                component: '@/pages/system/menu',
+                wrappers: ['@/components/RouteComponentAuth'], // 判断是否存在页面权限
+              },
+              {
+                path: '/system/dict', // 字典管理
+                exact: true,
+                component: '@/pages/system/dict',
+                wrappers: ['@/components/RouteComponentAuth'], // 判断是否存在页面权限
               },
             ],
           },

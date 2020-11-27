@@ -12,11 +12,13 @@
   "license": "ISC",
   "dependencies": {
     "@types/ioredis": "^4.17.8",
+    "@types/koa-compress": "^4.0.1",
     "ejs": "^3.0.1",
     "ioredis": "^4.19.2",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.11.0",
     "koa-bodyparser": "^4.2.1",
+    "koa-compress": "^5.0.1",
     "koa-jwt": "^3.6.0",
     "koa-router": "^8.0.8",
     "koa-static": "^5.0.0",

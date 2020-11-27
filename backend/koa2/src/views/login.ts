@@ -17,7 +17,6 @@ function createCode() {
     width: 100,
     height: 40,
     fontSize: 50,
-    // size:4, //随机字符串的多少
     ignoreChars: "0o1iIl", //过滤掉一些字符，例如0o1i
     noise: 0, //噪声线数
     background: "#eee", // SVG图片的背景颜色

@@ -5,9 +5,6 @@
 import { Model, model, Document, Schema } from "mongoose";
 
 export interface IDept {
-    component: string; // 组件路径
-    createBy: string | null; // 创建者id
-    createTime: string | null; //创建时间
     icon: string | null; // 图标
     isCache: boolean; // 是否缓存
     isFrame: boolean; // 是否外链
@@ -17,11 +14,12 @@ export interface IDept {
     menuOrder: number; // 显示排序
     parent:string | null; // 父菜单名称
     path: string; // 路由
+    component: string; // 组件路径
     perms: string; // 权限编码
     remark: string | null; // 备注
     status: number; // 状态 0 停用 1 正常
+    createBy: string | null; // 创建者id
     updateBy: string | null; // 更新者
-    updateTime: string | null; // 更新时间
   }
 export interface IDeptModel extends IDept, Document {}
 
@@ -34,14 +32,13 @@ const DeptSchema:Schema  = new Schema({
     perms:{type: String}, // 权限编码
     component:{type: String}, // 组件路径
     createBy:{type: Schema.Types.ObjectId,ref:'User'}, // 创建者 外链至 User表
-    createTime:{type: String}, //创建时间
     icon:{type: String}, // 图标
     isCache:{type: Boolean}, // 是否缓存
     isFrame:{type: Boolean}, // 是否外链
     remark:{type: String}, // 备注
     status:{type: Number,default:1}, // 状态 0 停用 1 正常
     updateBy:{type: String}, // 更新者
-    updateTime:{type: String}, // 更新时间
-});
+},
+{ timestamps: true });
 
 export const Dept:Model<IDeptModel> = model<IDeptModel>("dept",DeptSchema,"dept");
