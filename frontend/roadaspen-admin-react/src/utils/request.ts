@@ -1,7 +1,7 @@
 import { extend } from 'umi-request';
 import { routerRedux } from 'dva/router';
 import { getToken } from '@/utils/auth';
-import { TokenKey, ApiProfix, codeMsg } from './config';
+import { ApiProfix, codeMsg, TokenProfix } from './config';
 import { Modal, message, notification } from 'antd';
 import { stringify } from 'querystring';
 /**
@@ -39,7 +39,7 @@ request.interceptors.request.use(
       const headers = {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        Authorization: TokenKey + ' ' + getToken(),
+        Authorization: `${TokenProfix} ${getToken()}`,
       }; // 让每个请求携带自定义token 请根据实际情况自行修改
       return {
         url,

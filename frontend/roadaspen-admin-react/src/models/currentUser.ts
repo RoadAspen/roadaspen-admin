@@ -3,9 +3,7 @@
  */
 import { Effect, Reducer } from 'umi';
 
-import {
-  getCurrentUserInfo,
-} from '@/services/currentUser';
+import { getCurrentUserInfo } from '@/services/currentUser';
 import { getToken, removeToken, setToken } from '@/utils/auth';
 
 // 菜单
@@ -26,9 +24,9 @@ export interface CurrentUser {
   nickName?: string; // 用户昵称
   group?: string; // 组
   userid?: string; // 用户id
-  roles?:string[]; // 用户角色
-  permissions?:string[]; // 用户权限
-  menu_list?:Menu[]; // 用户菜单
+  roles?: string[]; // 用户角色
+  permissions?: string[]; // 用户权限
+  menu_list?: Menu[]; // 用户菜单
 }
 
 export interface CurrentUserModelState {
@@ -46,6 +44,7 @@ export interface CurrentUserModelType {
   reducers: {
     changeToken: Reducer<CurrentUserModelState>;
     saveCurrentUser: Reducer<CurrentUserModelState>;
+    delToken: Reducer<CurrentUserModelState>;
   };
 }
 
@@ -55,7 +54,7 @@ const CurrentUserModel: CurrentUserModelType = {
   state: {
     currentUser: {},
     fetchUserInfo: false,
-    token: getToken()
+    token: getToken(),
   },
 
   effects: {
@@ -78,14 +77,17 @@ const CurrentUserModel: CurrentUserModelType = {
     },
     changeToken(state, action) {
       // 如果
-      if (!action.payload.token) {
-        removeToken();
-      } else {
-        setToken(action.payload.token);
-      }
+      setToken(action.payload.token);
       return {
         ...state,
         ...action.payload,
+      };
+    },
+    delToken(state, action) {
+      removeToken()
+      return {
+        ...state,
+        token:undefined
       };
     },
   },

@@ -1,5 +1,7 @@
 // app token key
-export const TokenKey = 'Bearer';
+export const TokenKey = 'token';
+
+export const TokenProfix = 'Bearer';
 
 export const ApiProfix = '/api';
 

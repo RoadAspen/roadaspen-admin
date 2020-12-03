@@ -30,15 +30,15 @@ export function verify_token(
           const { username } = decoded as {
             username: string;
           };
-          User.findOne({ userName: username }, (error, user) => {
+          User.findOne({ userName: username },{password: 0 }, (error, user) => {
             if (!user) {
-              resolve({ code: 401, data: "", msg: "user not found" });
+              resolve({ code: 401, data: "", msg: "用户不存在" });
             } else {
-              resolve({ code: 200, data: user, msg: "token valid" });
+              resolve({ code: 200, data: user, msg: "合法的token" });
             }
           });
         } else {
-          resolve({ code: 401, data: "", msg: "user not found" });
+          resolve({ code: 401, data: "", msg: "用户不存在" });
         }
       }
     });

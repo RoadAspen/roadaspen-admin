@@ -19,12 +19,19 @@ const SecurityLayout = (props:SecurityLayoutProps) => {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
+    console.log('SecurityLayout 挂载');
     setReady(true);
-    const { dispatch } = props;
-    if (dispatch) {
+    const { dispatch , token} = props;
+    console.log(token);
+    if (dispatch && token) {
       dispatch({
         type: 'currentUser/fetchCurrentUserInfo',
       });
+    }
+    return ()=>{
+      dispatch &&  dispatch({
+        type: 'currentUser/delToken',
+      })
     }
   }, [])
   const { children, token, fetchUserInfo } = props;
