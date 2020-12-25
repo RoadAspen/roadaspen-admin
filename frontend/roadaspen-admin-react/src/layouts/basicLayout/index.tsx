@@ -22,12 +22,22 @@ const Logo = (props: { collapsed: boolean }) => {
     )
 }
 
-const TagContainer = (props:any) => {
+const TagContainer = (props: any) => {
+    const [tags, setTags] = useState<{path:string;title:string}[]>([]);
+    function removeTag(){
+        
+    }
     return (
         <ul>
-            <li>
-                <Link to="/index">首页</Link>
-            </li>
+            {
+                tags.map(item => {
+                    return (
+                        <li>
+                            <Link to={item.path} onClick={removeTag}>{item.title}</Link>
+                        </li>
+                    )
+                })
+            }
         </ul>
     )
 }
