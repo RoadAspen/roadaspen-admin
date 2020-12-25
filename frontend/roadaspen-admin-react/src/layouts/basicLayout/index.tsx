@@ -65,9 +65,9 @@ const BasicLayout = (props: any) => {
                         <Breadcrumb.Item>Bill</Breadcrumb.Item>
                     </Breadcrumb>
                 </Header>
-                <TagContainer/>
+                <TagContainer />
                 <Content className={styles.content}
-                >   
+                >
                     {props.children}
                 </Content>
             </Layout>
