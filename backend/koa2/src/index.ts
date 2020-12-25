@@ -5,6 +5,8 @@ import statics from 'koa-static';
 import Router from 'koa-router';
 import { loadModules } from './loadModules';
 import mongo from './mongo';
+import { write_list } from './config';
+import { verify_token } from './utils';
 
 const app = new Koa();
 
@@ -18,15 +20,19 @@ app.use(statics(path.join(__dirname, 'static')));
 const router = new Router();
 
 app.use(async (ctx,next)=>{
-    if(ctx.path === '/favicon.ico') return 
-    console.log(ctx.path)
-    if(ctx.path === '/name'){
-        ctx.body = {
-            code:403,
-            data:'',
-            msg:"无权限"
+    if(ctx.path === '/favicon.ico'){
+        return
+    }
+    // 如果路径不在白名单，则需要验证token
+    if(!write_list.includes(ctx.path)){
+        const tokens = ctx.request.headers.authorization;
+        const token = tokens && tokens.split(" ")[1];
+        const data = await verify_token(token);
+        if(data.code!==200){
+            ctx.body = data
+        }else{
+            ctx.userid = data.data && data.data.id 
         }
-        return 
     }
     await next();
 })

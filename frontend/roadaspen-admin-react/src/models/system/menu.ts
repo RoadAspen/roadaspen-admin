@@ -4,7 +4,7 @@
 import { Effect, Reducer } from 'umi';
 
 import {
-    getMenuList
+    get_menu_list
 } from '@/services/system/menu';
 
 // 菜单
@@ -29,7 +29,7 @@ export interface CurrentUserModelType {
   namespace: 'menu';
   state: MenuModelState;
   effects: {
-    fetchMenu: Effect;
+    getMenuList: Effect;
   };
   reducers: {
     saveCurrentUser: Reducer<MenuModelState>;
@@ -42,12 +42,12 @@ const CurrentUserModel: CurrentUserModelType = {
     menu_list:[]
   },
   effects: {
-    *fetchMenu(_, { call, put }) {
-      const response = yield call(getMenuList);
+    *getMenuList(_, { call, put }) {
+      const response = yield call(get_menu_list);
       // 请求用户信息成功，存储用户信息，并将fetchUserInfo标识为true
       yield put({
         type: 'saveCurrentUser',
-        payload: response,
+        payload: response.data,
       });
     },
   },

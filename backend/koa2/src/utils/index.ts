@@ -16,14 +16,14 @@ export function verify_token(
   token: string
 ): Promise<{
   code: number;
-  data: string | IUserModel;
-  msg: string;
+  data?: IUserModel;
+  message: string;
 }> {
   return new Promise((resolve) => {
     jwt.verify(token, app_secret_key, (error, decoded) => {
       if (error) {
         // token过期或者报错
-        resolve({ code: 401, data: "", msg: error.message });
+        resolve({ code: 401,  message: error.message });
       } else {
         // 如果存在，则去解析token
         if (decoded) {
@@ -32,13 +32,13 @@ export function verify_token(
           };
           User.findOne({ userName: username },{password: 0 }, (error, user) => {
             if (!user) {
-              resolve({ code: 401, data: "", msg: "用户不存在" });
+              resolve({ code: 401,  message: "用户不存在" });
             } else {
-              resolve({ code: 200, data: user, msg: "合法的token" });
+              resolve({ code: 200, data: user, message: "用户存在" });
             }
           });
         } else {
-          resolve({ code: 401, data: "", msg: "用户不存在" });
+          resolve({ code: 401, message: "用户不存在" });
         }
       }
     });

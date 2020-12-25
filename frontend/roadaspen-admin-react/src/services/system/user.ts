@@ -4,7 +4,7 @@ import request from '@/utils/request';
  */
 
 // 获取用户列表
-export function get_user_list<T>(params: T) {
+export function get_user_list<T extends {}>(params: T) {
     return request.get('/user/list/', { params });
 }
 

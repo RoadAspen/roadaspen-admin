@@ -22,7 +22,6 @@ const SecurityLayout = (props:SecurityLayoutProps) => {
     console.log('SecurityLayout 挂载');
     setReady(true);
     const { dispatch , token} = props;
-    console.log(token);
     if (dispatch && token) {
       dispatch({
         type: 'currentUser/fetchCurrentUserInfo',

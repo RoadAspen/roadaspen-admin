@@ -12,7 +12,7 @@ const routes: Routes = [
     routes: [
       {
         path: '/',
-        component: '@/layouts/BasicLayout',
+        component: '@/layouts/basicLayout',
         routes: [
           {
             path: '/', // 首页
