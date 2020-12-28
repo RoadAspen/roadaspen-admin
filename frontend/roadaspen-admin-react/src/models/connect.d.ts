@@ -1,4 +1,5 @@
 import { CurrentUserModelState } from './currentUser';
+import { TagModelState } from './tag';
 // import { StateType } from './login';
 
 // export { GlobalModelState, UserModelState };
@@ -19,6 +20,7 @@ export interface ConnectState {
 //   loading: Loading;
 //   settings: ProSettings;
   currentUser: CurrentUserModelState;
+  tag: TagModelState;
 //   login: StateType;
 }
 

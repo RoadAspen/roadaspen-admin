@@ -1,17 +1,11 @@
 import { routerRedux } from 'dva/router';
-import { Reducer, AnyAction } from 'redux';
-import { EffectsCommandMap } from 'dva';
 import { stringify, parse } from 'qs';
+import { Effect,Reducer } from 'umi';
 
 export function getPageQuery() {
   // 获取 url上的 query search属性
   return parse(window.location.href.split('?')[1]);
 }
-
-export type Effect = (
-  action: AnyAction,
-  effects: EffectsCommandMap & { select: <T>(func: (state: {}) => T) => T },
-) => void;
 
 // model type
 export interface ModelType {

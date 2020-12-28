@@ -1,7 +1,8 @@
 import { Component } from 'react';
-import {withRouter} from 'umi';
+import {withRouter,IRouteComponentProps} from 'umi';
 
-class ScrollToTop extends Component {
+// 每当跳转时，默认滚动到最顶端
+class ScrollToTop extends Component<IRouteComponentProps,{}> {
   componentDidUpdate(prevProps: { location: any; }) {
     if (this.props.location !== prevProps.location) {
       window.scrollTo(0, 0);

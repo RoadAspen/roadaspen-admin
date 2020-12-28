@@ -10,6 +10,7 @@ import {
 const { Header, Sider, Content } = Layout;
 import styles from './index.less';
 import { connect, Link } from 'umi';
+import TagContainer from '@/components/TagContainer';
 
 // 后台管理系统 页面左右布局。采用flex， aside 宽度固定，右侧 content 宽度自适应
 // content 页面上下布局， 采用 flex ，header，footer 高度固定。page 高度自适应
@@ -22,25 +23,6 @@ const Logo = (props: { collapsed: boolean }) => {
     )
 }
 
-const TagContainer = (props: any) => {
-    const [tags, setTags] = useState<{path:string;title:string}[]>([]);
-    function removeTag(){
-        
-    }
-    return (
-        <ul>
-            {
-                tags.map(item => {
-                    return (
-                        <li>
-                            <Link to={item.path} onClick={removeTag}>{item.title}</Link>
-                        </li>
-                    )
-                })
-            }
-        </ul>
-    )
-}
 const BasicLayout = (props: any) => {
     const [collapsed, setCollapsed] = useState<boolean>(false);
     function toggle() {
