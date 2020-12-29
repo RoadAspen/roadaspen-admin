@@ -22,7 +22,7 @@ export type TagModelType = {
 const TagModel: TagModelType = {
   namespace: 'tag',
   state: {
-    tags: { '/index': { path: '/index', title: '首页', del: false } },
+    tags: { '/index': { path: '/index', title: '首页', del: false },'/system/menu':{path:'/system/menu',title:'菜单管理',del:true} },
   },
   effects: {
     *addTag({ payload }, { put, select }) {

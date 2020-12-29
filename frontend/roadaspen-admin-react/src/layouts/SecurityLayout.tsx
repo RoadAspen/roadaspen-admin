@@ -27,6 +27,7 @@ const SecurityLayout = (props:SecurityLayoutProps) => {
         type: 'currentUser/fetchCurrentUserInfo',
       });
     }
+    // 刷新删除token
     return ()=>{
       dispatch &&  dispatch({
         type: 'currentUser/delToken',

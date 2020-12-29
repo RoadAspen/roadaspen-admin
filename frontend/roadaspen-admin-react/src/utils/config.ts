@@ -1,4 +1,4 @@
-// app token key
+// app token key localstorage
 export const TokenKey = 'token';
 
 export const TokenProfix = 'Bearer';

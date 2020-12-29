@@ -1,8 +1,5 @@
 import { CurrentUserModelState } from './currentUser';
 import { TagModelState } from './tag';
-// import { StateType } from './login';
-
-// export { GlobalModelState, UserModelState };
 
 export interface Loading {
   global: boolean;
