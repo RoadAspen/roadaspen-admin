@@ -1,4 +1,4 @@
-import React, { ReactChildren, useState } from 'react';
+import React, { useState } from 'react';
 import { Layout, Menu} from 'antd';
 import {
     MenuUnfoldOutlined,
@@ -24,18 +24,17 @@ const Logo = (props: { collapsed: boolean }) => {
 }
 
 interface Props extends ConnectProps{
-    children:ReactChildren;
     dispatch:Dispatch
 }
 
-const BasicLayout:React.FC<Props> = (props: Props) => {
+const BasicLayout:React.FC<Props> = (props) => {
     const [collapsed, setCollapsed] = useState<boolean>(false);
-    const { dispatch } = props
+    const { dispatch } = props;
     function toggle() {
         setCollapsed((collapsed) => !collapsed);
     }
 
-    function addTag(item){
+    function addTag<T>(item:T){
         dispatch({
             type:'tag/addTag',
             payload:item
