@@ -1,8 +1,9 @@
 .tag_container{
     margin: 0;
     height: 34px;
-    padding: 6px 10px 0;
-    overflow: hidden;
+    box-sizing: border-box;
+    padding: 6px 10px 0px;
+    display: flex;
     list-style: none;
     box-shadow: 0px -3px 10px rgba(0,0,0);
     z-index: 2;
@@ -10,8 +11,9 @@
 }
 .tag_item{
     box-sizing: border-box;
-    float: left;
+    width: auto; // auto 根据元素内部的实际宽度渲染，不会自动填充剩余宽度
     line-height: 24px;
+    height: 24px;
     font-size: 12px;
     margin-right: 7px;
     position: relative;
@@ -22,6 +24,7 @@
         color:inherit;
         display: block;
         transition: none;
+        white-space: nowrap;
     }
     a.close_icon {
         padding: 0 28px 0 10px;

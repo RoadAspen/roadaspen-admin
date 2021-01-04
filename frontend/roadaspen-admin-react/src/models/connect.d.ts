@@ -1,5 +1,7 @@
+
 import { CurrentUserModelState } from './currentUser';
 import { TagModelState } from './tag';
+import {MenuModelState} from './system/menu'
 
 export interface Loading {
   global: boolean;
@@ -18,6 +20,7 @@ export interface ConnectState {
 //   settings: ProSettings;
   currentUser: CurrentUserModelState;
   tag: TagModelState;
+  menu:MenuModelState
 //   login: StateType;
 }
 
