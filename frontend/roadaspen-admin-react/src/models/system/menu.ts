@@ -10,7 +10,7 @@ export type Menu = {
   // 左侧菜单
   id?:string; // id
   key?: string; // 每个菜单key
-  menuType?:string; // 菜单类型
+  menuType?:string; // 菜单类型 directory 目录   menu 菜单  button 按钮
   menuName?: string; // 菜单名称
   menuOrder?: number; // 排序
   icon?: string; // 图标
@@ -22,7 +22,8 @@ export type Menu = {
   parent?: string; // 父id
   show?: boolean; // 是否显示 true 显示  false 隐藏
   status?: 1 | 0; // 菜单状态 1正常 0 停用
-  create_time?:string; // 创建时间
+  createTime?:string; // 创建时间
+  updateTime?:string; // 更新时间
 };
 
 export interface MenuModelState {

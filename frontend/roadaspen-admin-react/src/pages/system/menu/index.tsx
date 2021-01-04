@@ -72,10 +72,10 @@ const data: MenuType[] = [
                 children: [
                     {
                         key: '111',
-                        menuName: '系统管理',
-                        icon: '图标',
                         menuOrder: 1,
                         menuType: 's',
+                        menuName: '系统管理',
+                        icon: '图标',
                         show: true
                     },
                     {
@@ -183,6 +183,9 @@ const Menu: React.FC<Props> = (props) => {
 
                 }
             />
+            <Modal>
+                
+            </Modal>
         </React.Fragment>
     );
 }
