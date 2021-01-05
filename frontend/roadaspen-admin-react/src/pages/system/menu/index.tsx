@@ -170,41 +170,41 @@ const Menu: React.FC<Props> = (props) => {
                         </Select>
                     </Form.Item>
                     <FormItemWidthHalfContainer>
-                        <Form.Item name="menuName" label="菜单名称" style={{ width: '48%'}}>
+                        <Form.Item name="menuName" label="菜单名称" className="ant-form-item-half" >
                             <Input placeholder="请输入菜单名称" />
                         </Form.Item>
-                        <Form.Item name="menuOrder" label="显示排序" style={{ width: '48%' }}>
+                        <Form.Item name="menuOrder" label="显示排序" className="ant-form-item-half">
                             <Input type='number' placeholder="显示排序" />
                         </Form.Item>
-                        <Form.Item name="isFrame" label="是否外链" style={{ width: '48%', display: 'inline-flex' }}>
+                        <Form.Item name="isFrame" label="是否外链" className="ant-form-item-half">
                             <Radio.Group name="isFrame" value={1}>
                                 <Radio value={1}>是</Radio>
                                 <Radio value={2}>否</Radio>
                             </Radio.Group>
                         </Form.Item>
-                        <Form.Item name="path" label="路由地址" style={{ width: '48%' }}>
+                        <Form.Item name="path" label="路由地址" className="ant-form-item-half">
                             <Input placeholder="请输入菜单名称" />
                         </Form.Item>
-                        <Form.Item name="component" label="组件路径" style={{ width: '48%' }}>
+                        <Form.Item name="component" label="组件路径" className="ant-form-item-half">
                             <Input placeholder="请输入组件路径" />
                         </Form.Item>
-                        <Form.Item name="permissionCode" label="权限标识" style={{ width: '48%' }}>
+                        <Form.Item name="permissionCode" label="权限标识" className="ant-form-item-half">
                             <Input placeholder="请输入权限标识" />
                         </Form.Item>
-                        <Form.Item name="show" label="显示状态" style={{ width: '48%' }}>
+                        <Form.Item name="show" label="显示状态" className="ant-form-item-half">
                             <Radio.Group name="show" value={1}>
                                 <Radio value={1}>显示</Radio>
                                 <Radio value={2}>隐藏</Radio>
                             </Radio.Group>
                         </Form.Item>
-                        <Form.Item name="status" label="菜单状态" style={{ marginBottom: 10, width: '48%' }}>
+                        <Form.Item name="status" label="菜单状态" className="ant-form-item-half">
                             <Radio.Group name="status" value={1}>
                                 <Radio value={1}>正常</Radio>
                                 <Radio value={2}>停用</Radio>
                             </Radio.Group>
                         </Form.Item>
-                        <Form.Item name="isCache" label="是否缓存" style={{ marginBottom: 10, width: '48%' }}>
-                            <Radio.Group name="isCache" value={1}>
+                        <Form.Item name="isCache" label="是否缓存" className="ant-form-item-half">
+                            <Radio.Group name="isCache" value={1} >
                                 <Radio value={1}>是</Radio>
                                 <Radio value={2}>否</Radio>
                             </Radio.Group>
