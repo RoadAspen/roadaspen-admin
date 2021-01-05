@@ -1,27 +1,24 @@
 
 import { CurrentUserModelState } from './currentUser';
 import { TagModelState } from './tag';
-import {MenuModelState} from './system/menu'
+import { MenuModelState} from './system/menu'
 
 export interface Loading {
   global: boolean;
-  effects: { [key: string]: boolean | undefined };
+  effects: { [key: string]: boolean };
   models: {
-    menu?: boolean;
-    setting?: boolean;
-    user?: boolean;
-    login?: boolean;
+    [key:string]: boolean;
   };
 }
 
-export interface ConnectState {
+export interface ConnectStateType {
   // global: GlobalModelState;
-//   loading: Loading;
-//   settings: ProSettings;
+  //   settings: ProSettings;
+  //   login: StateType;
+  loading: Loading;
   currentUser: CurrentUserModelState;
   tag: TagModelState;
   menu:MenuModelState
-//   login: StateType;
 }
 
 // export interface Route extends MenuDataItem {

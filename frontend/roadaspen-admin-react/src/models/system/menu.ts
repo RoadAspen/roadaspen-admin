@@ -6,7 +6,7 @@ import { Effect, Reducer } from 'umi';
 import { get_menu_list } from '@/services/system/menu';
 
 // 菜单
-export type Menu = {
+export type MenuType = {
   // 左侧菜单
   id?:string; // id
   key?: string; // 每个菜单key
@@ -17,8 +17,9 @@ export type Menu = {
   path?: string; // 路由地址
   component?:string;// 组件路径
   permissionCode?:string; // 权限编码
-  children?: Menu[]; // 子菜单
+  children?: MenuType[]; // 子菜单
   isFrame?: boolean; // 是否外链
+  isCache?: boolean; // 是否缓存
   parent?: string; // 父id
   show?: boolean; // 是否显示 true 显示  false 隐藏
   status?: 1 | 0; // 菜单状态 1正常 0 停用
@@ -27,11 +28,16 @@ export type Menu = {
 };
 
 export interface MenuModelState {
-  menu_list: Menu[];
-  search_list: {
-    title?: string;
-    status?: number;
-  };
+  menuList: MenuType[]; // 
+  formLoading:boolean; // 
+  queryParams:{
+    menuName: string | undefined;
+    status: number | undefined;
+  },
+  formData:{};
+  visible:false;
+  title:string;
+  ids:[]; 
 }
 
 export interface MenuModelType {
@@ -49,11 +55,23 @@ export interface MenuModelType {
 const MenuModel: MenuModelType = {
   namespace: 'menu',
   state: {
-    menu_list: [],
-    search_list: {
-      title: undefined,
+    // 菜单列表
+    menuList: [],
+    // 表单新增、修改 是否正在请求中
+    formLoading:false,
+    // 查询参数
+    queryParams:{
+      menuName:undefined,
       status: undefined,
     },
+    // 表单参数
+    formData:{},
+    // 是否显示弹出层
+    visible:false,
+    // 弹出层标题
+    title:"",
+    // 选择的id
+    ids:[]
   },
   effects: {
     *getMenuList(_, { call, put }) {

@@ -41,7 +41,7 @@ const MenuSchema: Schema = new Schema(
     updateBy: { type: Schema.Types.ObjectId,ref:'user'}, // 更新者
     remark: { type: String }, // 备注
   },
-  { timestamps: { createdAt: 'createTime', updatedAt: 'updateTime' } }
+  { timestamps: true }
 );
 
 export const Menu: Model<IMenuModel> = model<IMenuModel>(
