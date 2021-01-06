@@ -10,7 +10,7 @@ import FormItemWidthHalfContainer from '@/components/FormItemWidthHalfContainer'
 const { Option } = Select;
 
 const { TreeNode } = TreeSelect;
-interface Props extends ConnectProps, MenuModelState {
+interface MenuProps extends ConnectProps, MenuModelState {
     dispatch: Dispatch
 }
 const columns: ColumnsType<MenuType> = [
@@ -53,11 +53,12 @@ const columns: ColumnsType<MenuType> = [
         }
     },
 ];
-const Menu: React.FC<Props> = (props) => {
-    const { dispatch, menuList, visible } = props;
+const Menu: React.FC<MenuProps> = (props) => {
+    const { dispatch, menuList, visible, title, formData } = props;
+    const [form1] = Form.useForm();
     const [form] = Form.useForm();
     const onFinish = (values: any) => {
-        console.log(values);
+        console.log('form1:',values);
     };
 
     const onReset = () => {
@@ -72,7 +73,16 @@ const Menu: React.FC<Props> = (props) => {
         dispatch({
             type: 'menu/update',
             payload: {
-                visible: true
+                visible: true,
+                title:'新增菜单'
+            }
+        })
+    }
+    const onCancel = () => {
+        dispatch({
+            type: 'menu/update',
+            payload: {
+                visible: false
             }
         })
     }
@@ -80,7 +90,7 @@ const Menu: React.FC<Props> = (props) => {
         <React.Fragment>
             <Row>
                 <Col span={24} >
-                    <Form form={form} layout="inline" onFinish={onFinish}>
+                    <Form form={form1} layout="inline" onFinish={onFinish}>
                         <Form.Item name="title" label="菜单名称" style={{ marginBottom: 10 }}>
                             <Input placeholder="请输入菜单名称" />
                         </Form.Item>
@@ -130,10 +140,34 @@ const Menu: React.FC<Props> = (props) => {
                 }}
             />
             <Modal
-                title="新增菜单"
+                title={title||'a'}
                 visible={visible}
+                onCancel={onCancel}
+                onOk={() => {
+                    form
+                    .validateFields()
+                    .then(values => {
+                    //   form.resetFields();
+                      console.log(values)
+                    //   onCreate(values);
+                    })
+                    .catch(info => {
+                      console.log('Validate Failed:', info);
+                    });
+                }}
             >
-                <Form >
+                <Form
+                    fields={formData}
+                    onChange={newFields => {
+                        dispatch({
+                            type: 'menu/update',
+                            payload: {
+                                formData: newFields
+                            }
+                        });
+                    }}
+                    form={form}
+                >
                     <Form.Item name="parent" label="上级菜单">
                         <TreeSelect
                             showSearch
@@ -156,12 +190,15 @@ const Menu: React.FC<Props> = (props) => {
                         </TreeSelect>
                     </Form.Item>
                     <Form.Item name="menuType" label="菜单类型">
-                        <Radio.Group name="menuType" value={1}>
+                        <Radio.Group name="menuType">
                             <Radio value={1}>目录</Radio>
                             <Radio value={2}>菜单</Radio>
                             <Radio value={3}>按钮</Radio>
                         </Radio.Group>
                     </Form.Item>
+                    {
+
+                    }
                     <Form.Item name="icon" label="菜单图标">
                         <Select
                             placeholder="选择菜单图标"
@@ -177,9 +214,9 @@ const Menu: React.FC<Props> = (props) => {
                             <Input type='number' placeholder="显示排序" />
                         </Form.Item>
                         <Form.Item name="isFrame" label="是否外链" className="ant-form-item-half">
-                            <Radio.Group name="isFrame" value={1}>
-                                <Radio value={1}>是</Radio>
-                                <Radio value={2}>否</Radio>
+                            <Radio.Group name="isFrame">
+                                <Radio value={true}>是</Radio>
+                                <Radio value={false}>否</Radio>
                             </Radio.Group>
                         </Form.Item>
                         <Form.Item name="path" label="路由地址" className="ant-form-item-half">
@@ -192,21 +229,21 @@ const Menu: React.FC<Props> = (props) => {
                             <Input placeholder="请输入权限标识" />
                         </Form.Item>
                         <Form.Item name="show" label="显示状态" className="ant-form-item-half">
-                            <Radio.Group name="show" value={1}>
-                                <Radio value={1}>显示</Radio>
-                                <Radio value={2}>隐藏</Radio>
+                            <Radio.Group name="show">
+                                <Radio value={true}>显示</Radio>
+                                <Radio value={false}>隐藏</Radio>
                             </Radio.Group>
                         </Form.Item>
                         <Form.Item name="status" label="菜单状态" className="ant-form-item-half">
-                            <Radio.Group name="status" value={1}>
+                            <Radio.Group name="status">
                                 <Radio value={1}>正常</Radio>
-                                <Radio value={2}>停用</Radio>
+                                <Radio value={0}>停用</Radio>
                             </Radio.Group>
                         </Form.Item>
                         <Form.Item name="isCache" label="是否缓存" className="ant-form-item-half">
-                            <Radio.Group name="isCache" value={1} >
-                                <Radio value={1}>是</Radio>
-                                <Radio value={2}>否</Radio>
+                            <Radio.Group name="isCache" >
+                                <Radio value={true}>是</Radio>
+                                <Radio value={false}>否</Radio>
                             </Radio.Group>
                         </Form.Item>
                     </FormItemWidthHalfContainer>
