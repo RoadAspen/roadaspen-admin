@@ -13,56 +13,25 @@ const { TreeNode } = TreeSelect;
 interface MenuProps extends ConnectProps, MenuModelState {
     dispatch: Dispatch
 }
-const columns: ColumnsType<MenuType> = [
-    {
-        title: '菜单名称',
-        dataIndex: 'menuName',
-    },
-    {
-        title: '图标',
-        dataIndex: 'icon',
-    },
-    {
-        title: '排序',
-        dataIndex: 'menuOrder',
-    },
-    {
-        title: '权限标识',
-        dataIndex: 'permissionCode',
-    },
-    {
-        title: '路由地址',
-        dataIndex: 'path',
-    },
-    {
-        title: '状态',
-        dataIndex: 'status',
-    },
-    {
-        title: '创建时间',
-        dataIndex: 'create_time',
-    },
-    {
-        title: '操作',
-        render() {
-            return <Space size="middle">
-                <a>修改</a>
-                <a>新增</a>
-                <a>删除</a>
-            </Space>
-        }
-    },
-];
 const Menu: React.FC<MenuProps> = (props) => {
     const { dispatch, menuList, visible, title, formData } = props;
-    const [form1] = Form.useForm();
+    const [searchForm] = Form.useForm();
     const [form] = Form.useForm();
-    const onFinish = (values: any) => {
-        console.log('form1:',values);
+    const onSearchFormChange = (changeValue: any, allvalues: any) => {
+        dispatch({
+            type: 'menu/update',
+            payload: {
+                queryParams: allvalues
+            }
+        })
+    }
+    const onSearchFormFinish = () => {
+        dispatch({
+            type: 'menu/getMenuList'
+        })
     };
-
     const onReset = () => {
-        form.resetFields();
+        searchForm.resetFields();
     };
     useEffect(() => {
         dispatch({
@@ -74,7 +43,55 @@ const Menu: React.FC<MenuProps> = (props) => {
             type: 'menu/update',
             payload: {
                 visible: true,
-                title:'新增菜单'
+                title: '新增菜单',
+                type: 'add'
+            }
+        })
+    }
+    const onClickDel = (id?:string) => {
+        dispatch({
+            type: 'menu/menuDelete',
+            payload: {
+                id
+            }
+        })
+    }
+    const onClickEdit = ({
+        parent,
+        menuType,
+        icon,
+        menuName,
+        menuOrder,
+        isFrame,
+        path,
+        component,
+        permissionCode,
+        show,
+        status,
+        isCache,
+        id
+    }:MenuType) => {
+        dispatch({
+            type: 'menu/update',
+            payload: {
+                visible: true,
+                title: '编辑菜单',
+                type: 'edit',
+                formData: [
+                    { name: ['parent'], value: parent },
+                    { name: ['menuType'], value: menuType },
+                    { name: ['icon'], value: icon },
+                    { name: ['menuName'], value: menuName },
+                    { name: ['menuOrder'], value: menuOrder },
+                    { name: ['isFrame'], value: isFrame },
+                    { name: ['path'], value: path },
+                    { name: ['component'], value: component },
+                    { name: ['permissionCode'], value: permissionCode },
+                    { name: ['show'], value: show },
+                    { name: ['status'], value: status },
+                    { name: ['isCache'], value: isCache },
+                ],
+                id:id
             }
         })
     }
@@ -86,15 +103,55 @@ const Menu: React.FC<MenuProps> = (props) => {
             }
         })
     }
+    const columns: ColumnsType<MenuType> = [
+        {
+            title: '菜单名称',
+            dataIndex: 'menuName',
+        },
+        {
+            title: '图标',
+            dataIndex: 'icon',
+        },
+        {
+            title: '排序',
+            dataIndex: 'menuOrder',
+        },
+        {
+            title: '权限标识',
+            dataIndex: 'permissionCode',
+        },
+        {
+            title: '路由地址',
+            dataIndex: 'path',
+        },
+        {
+            title: '状态',
+            dataIndex: 'status',
+        },
+        {
+            title: '创建时间',
+            dataIndex: 'create_time',
+        },
+        {
+            title: '操作',
+            render(value, record) {
+                return <Space size="middle">
+                    <a onClick={() => onClickEdit(record)}>修改</a>
+                    <a onClick={onClickAdd}>新增</a>
+                    <a onClick={()=>onClickDel(record.id)}>删除</a>
+                </Space>
+            }
+        },
+    ];
     return (
         <React.Fragment>
             <Row>
                 <Col span={24} >
-                    <Form form={form1} layout="inline" onFinish={onFinish}>
-                        <Form.Item name="title" label="菜单名称" style={{ marginBottom: 10 }}>
+                    <Form form={searchForm} layout="inline" onValuesChange={onSearchFormChange} onFinish={onSearchFormFinish}>
+                        <Form.Item name="title" label="菜单名称">
                             <Input placeholder="请输入菜单名称" />
                         </Form.Item>
-                        <Form.Item name="status" label="状态" style={{ marginBottom: 10 }}>
+                        <Form.Item name="status" label="状态">
                             <Select
                                 placeholder="菜单状态"
                                 allowClear
@@ -104,7 +161,7 @@ const Menu: React.FC<MenuProps> = (props) => {
                                 <Option value={0} key="0">停用</Option>
                             </Select>
                         </Form.Item>
-                        <Form.Item style={{ marginBottom: 10 }}>
+                        <Form.Item>
                             <Button type="primary" htmlType="submit" style={{ marginRight: 15 }} icon={<SearchOutlined />} size="small">搜索</Button>
                             <Button htmlType="button" onClick={onReset} icon={<SyncOutlined />} size="small">重置</Button>
                         </Form.Item>
@@ -140,29 +197,29 @@ const Menu: React.FC<MenuProps> = (props) => {
                 }}
             />
             <Modal
-                title={title||'a'}
+                title={title || 'a'}
                 visible={visible}
                 onCancel={onCancel}
                 onOk={() => {
                     form
-                    .validateFields()
-                    .then(values => {
-                    //   form.resetFields();
-                      console.log(values)
-                    //   onCreate(values);
-                    })
-                    .catch(info => {
-                      console.log('Validate Failed:', info);
-                    });
+                        .validateFields()
+                        .then(values => {
+                            //   form.resetFields();
+                            console.log(values)
+                            //   onCreate(values);
+                        })
+                        .catch(info => {
+                            console.log('Validate Failed:', info);
+                        });
                 }}
             >
                 <Form
                     fields={formData}
-                    onChange={newFields => {
+                    onFieldsChange={(fields, allFields) => {
                         dispatch({
                             type: 'menu/update',
                             payload: {
-                                formData: newFields
+                                formData: allFields
                             }
                         });
                     }}
@@ -189,7 +246,7 @@ const Menu: React.FC<MenuProps> = (props) => {
                             </TreeNode>
                         </TreeSelect>
                     </Form.Item>
-                    <Form.Item name="menuType" label="菜单类型">
+                    <Form.Item name="menuType" label="菜单类型" >
                         <Radio.Group name="menuType">
                             <Radio value={1}>目录</Radio>
                             <Radio value={2}>菜单</Radio>

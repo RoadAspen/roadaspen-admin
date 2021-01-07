@@ -44,6 +44,7 @@ export interface MenuModelState {
   visible: false;
   title: string;
   ids: [];
+  type:string; // add | edit
 }
 
 export interface MenuModelType {
@@ -75,12 +76,12 @@ const MenuModel: MenuModelType = {
       { name: ['parent'], value: '1' },
       { name: ['menuType'], value: 2 },
       { name: ['icon'], value: '' },
-      { name: ['menuName'], value: 'Ant Design' },
+      { name: ['menuName'], value: '' },
       { name: ['menuOrder'], value: 1 },
       { name: ['isFrame'], value: true },
-      { name: ['path'], value: '/system/menu' },
-      { name: ['component'], value: '/system/menu/index' },
-      { name: ['permissionCode'], value: '/system/menu' },
+      { name: ['path'], value: '' },
+      { name: ['component'], value: '' },
+      { name: ['permissionCode'], value: '' },
       { name: ['show'], value: true },
       { name: ['status'], value: 1 },
       { name: ['isCache'], value: true },
@@ -89,6 +90,8 @@ const MenuModel: MenuModelType = {
     visible: false,
     // 弹出层标题
     title: '',
+    // 弹窗当前类型
+    type:'',
     // 选择的id
     ids: [],
   },
