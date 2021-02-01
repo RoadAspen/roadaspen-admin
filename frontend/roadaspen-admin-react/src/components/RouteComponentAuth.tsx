@@ -11,7 +11,7 @@ const RouteComponentAuth: React.FC = (props)=> {
   // isLogin = !isLogin;
   if (isLogin) {
     console.log("已经登录");
-    return <div title={'jd'}>{props.children}</div>;
+    return <div title={'这是RouteComponentAuth添加的外层'}>{props.children}</div>;
   } else {
     console.log("未登录");
     return <Redirect to="/login" />;

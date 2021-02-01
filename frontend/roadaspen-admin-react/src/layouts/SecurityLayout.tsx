@@ -15,6 +15,7 @@ interface SecurityLayoutProps extends ConnectProps {
   children:any;
 }
 
+// 一级验证， 判断用户是否登录，token是否存在，以及用户信息是否已经请求成功
 const SecurityLayout = (props:SecurityLayoutProps) => {
   const [ready, setReady] = useState(false);
 
