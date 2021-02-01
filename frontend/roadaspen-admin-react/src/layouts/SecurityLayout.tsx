@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { PageLoading } from '@ant-design/pro-layout';
 import { Redirect, connect, ConnectProps } from 'umi';
 import { stringify } from 'querystring';
-import { ConnectState } from '@/models/connect';
+import { ConnectStateType } from '@/models/connect';
 
 interface SecurityLayoutProps extends ConnectProps {
   token?: string | null;
@@ -58,7 +58,7 @@ const SecurityLayout = (props:SecurityLayoutProps) => {
   return children;
 }
 
-export default connect(({ currentUser }: ConnectState) => ({
+export default connect(({ currentUser }: ConnectStateType) => ({
   fetchUserInfo: currentUser.fetchUserInfo,
   token: currentUser.token
 }))(SecurityLayout);

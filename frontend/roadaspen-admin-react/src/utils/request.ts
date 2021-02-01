@@ -94,7 +94,6 @@ request.interceptors.response.use(async response => {
     });
   } else if (code > 401 && code < 500) {
     message.error(msg);
-    // return Promise.reject(new Error(msg));
   }
   return res;
 });

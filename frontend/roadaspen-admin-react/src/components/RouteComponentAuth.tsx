@@ -4,6 +4,8 @@
 import React from "react";
 import { Redirect, connect } from 'umi';
 let isLogin = true;
+// 权限及角色验证， 先验证角色，再验证权限
+
 const RouteComponentAuth: React.FC = (props)=> {
   // const {isLogin} = useAuth();
   // isLogin = !isLogin;
