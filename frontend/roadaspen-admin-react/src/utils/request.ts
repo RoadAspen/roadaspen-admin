@@ -34,26 +34,39 @@ const request = extend({
 //在发起请求之前,拦截请求
 request.interceptors.request.use(
   (url, options) => {
-    // token存在 且 isToken 为 true
-    if (getToken() && !url.includes('captchaImage') && !url.includes('login')) {
-      const headers = {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        Authorization: `${TokenProfix} ${getToken()}`,
-      }; // 让每个请求携带自定义token 请根据实际情况自行修改
-      return {
-        url,
-        options: {
-          ...options,
-          headers,
-        },
-      };
-    } else if (!url.includes('captchaImage') && !url.includes('login')) {
-      return { url, options };
+    const token = getToken();
+    // 白名单
+    const isWriteUrl = url.includes('captchaImage') || url.includes('login');
+    // token存在
+    if (token) {
+      if (isWriteUrl) {
+        const headers = {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: `${TokenProfix} ${token}`,
+        }; // 让每个请求携带自定义token 请根据实际情况自行修改
+        return {
+          url,
+          options: {
+            ...options,
+            headers,
+          },
+        };
+      } else {
+        return { url, options };
+      }
     } else {
-      routerRedux.push('/login');
+      // token 不存在
+
+      // 如果是白名单
+      if (isWriteUrl) {
+        return { url, options };
+      } else {
+        // 不在白名单则报没有权限，直接跳转到登录页
+        routerRedux.push('/login');
+        return { url, options };
+      }
     }
-    return { url, options };
   },
   { global: true },
 );
