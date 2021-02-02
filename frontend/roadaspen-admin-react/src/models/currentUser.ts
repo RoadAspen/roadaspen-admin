@@ -75,19 +75,19 @@ const CurrentUserModel: CurrentUserModelType = {
         fetchUserInfo: true,
       };
     },
-    changeToken(state, action) {
+    changeToken(state, { payload }) {
       // 如果
-      setToken(action.payload.token);
+      setToken(payload.token);
       return {
         ...state,
-        ...action.payload,
+        ...payload,
       };
     },
-    delToken(state, action) {
-      removeToken()
+    delToken(state) {
+      removeToken();
       return {
         ...state,
-        token:undefined
+        token: undefined,
       };
     },
   },

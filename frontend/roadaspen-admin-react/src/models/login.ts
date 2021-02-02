@@ -1,6 +1,6 @@
 import { routerRedux } from 'dva/router';
 import { stringify, parse } from 'qs';
-import { Effect,Reducer } from 'umi';
+import { Effect, Reducer } from 'umi';
 
 export function getPageQuery() {
   // 获取 url上的 query search属性

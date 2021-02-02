@@ -20,7 +20,3 @@ export interface ConnectStateType {
   tag: TagModelState;
   menu:MenuModelState
 }
-
-// export interface Route extends MenuDataItem {
-//   routes?: Route[];
-// }
