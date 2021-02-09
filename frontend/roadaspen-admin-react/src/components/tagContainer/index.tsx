@@ -1,11 +1,11 @@
 import React from 'react';
-import { ConnectState } from '@/models/connect';
+import { ConnectStateType } from '@/models/connect';
 import { connect, Dispatch, NavLink } from 'umi';
 import { Badge } from 'antd';
 import { CloseOutlined } from '@ant-design/icons'
 import * as styles from './index.less'
 
-const mapStateToProps = ({ tag }: ConnectState) => ({ tags: tag.tags });
+const mapStateToProps = ({ tag }: ConnectStateType) => ({ tags: tag.tags });
 
 type modelType = ReturnType<typeof mapStateToProps>;
 
@@ -20,7 +20,7 @@ const TagContainer: React.FC<Props> = (props: Props) => {
                 payload: item
             })
         }
-        if(item.path === "/system/user"){
+        if (item.path === "/system/user") {
             location.href = '/system/menu'
         }
     }
